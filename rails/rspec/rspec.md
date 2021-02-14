@@ -6,7 +6,8 @@
     - [it](#it)
 - [before](#before)
 - [shared_examples](#shared_examples)
-- [shared_context](#shard_context)
+- [shared_context](#shared_context)
+- [aggregate_failures](#aggregate_failures)
 
 <span id='d_c_i'></a>
 ## describe / context / it
@@ -116,7 +117,7 @@ end
 it_behaves_like 'test name', variable, parameter
 ```
 
-<a id='shared_context'></a>
+<span id='shared_context'></span>
 ## shared_context
 
 <u>**テスト前の準備の共有**</u>
@@ -131,3 +132,102 @@ shared_context '準備名' do
     処理4
   end
 end
+
+# 呼び出し
+include_context '準備名'
+```
+
+ブロック因数も使用できる。
+
+<span id='aggregate_failures'></span>
+## aggregate_failures
+expectをまとめる。
+
+```ruby
+it 'test' do
+  aggregate_failures do
+    expect(page).to have_content 'text_1'
+    expect(page).to have_content 'text_2'
+  end
+end
+```
+
+<details>
+
+it内に複数のexpectを記述すると、テストが失敗したところで止まってしまう。
+
+```ruby
+it 'test' do
+  expect('success').to eq 'success'
+  expect('success').to eq 'failure_A'
+  expect('success').to eq 'success'
+  expect('success').to eq 'failure_B'
+  expect('success').to eq 'success'
+end
+```
+
+```ruby
+# テスト結果
+Failures:
+
+  1) test
+     Failure/Error: expect('success').to eq 'failure_A'
+
+       expected: 'failure_A'
+            got: 'success'
+
+       (compared using ==)
+
+Finished in *.***** seconds (files took **.** seconds to load)
+1 example, 1 failure
+
+```
+
+<br>
+`aggregate_failures`を使用すると、テストが失敗してもit内のexpectを続け、失敗したexpectのみを表示する。
+
+```ruby
+it 'test' do
+  aggregate_failures do
+    expect('success').to eq 'success'
+    expect('success').to eq 'failure_A'
+    expect('success').to eq 'success'
+    expect('success').to eq 'failure_B'
+    expect('success').to eq 'success'
+  end
+end
+```
+
+```ruby
+# テスト結果
+Failures:
+
+  1) test test
+     Got 2 failures from failure aggregation block.
+
+     1.1) Failure/Error: expect('success').to eq 'failure_A'
+
+            expected: "failure_A"
+                 got: "success"
+
+            (compared using ==)
+
+
+
+
+     1.2) Failure/Error: expect('success').to eq 'failure_B'
+
+            expected: "failure_B"
+                 got: "success"
+
+            (compared using ==)
+
+
+
+
+Finished in *.***** seconds (files took **.** seconds to load)
+1 example, 1 failure
+
+```
+
+</details>
