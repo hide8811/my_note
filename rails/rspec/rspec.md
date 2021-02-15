@@ -9,7 +9,7 @@
 - [shared_context](#shared_context)
 - [aggregate_failures](#aggregate_failures)
 
-<span id='d_c_i'></a>
+<span id='d_c_i'></span>
 ## describe / context / it
 
 ```ruby
@@ -21,13 +21,13 @@ describe '〇〇' do
 end
 ```
 
-<span id='describe'></a>
+<span id='describe'></span>
 ### 【describe】
 
 [ 〜を記述する・〜を説明する ]<br>
 <u>**テスト対象の大枠**</u>
 
-<span id='context'></a>
+<span id='context'></span>
 ### 【context】
 
 [ 文脈・状況・前後関係 ]<br>
@@ -42,14 +42,14 @@ context '〜の場合' do
 end
 ```
 
-<span id='it'></a>
+<span id='it'></span>
 ### 【it】
 
 <u>**テスト内容**</u>
 
 <br>
 
-<a id='expect'></a>
+<a id='expect'></span>
 ## expect
 
 [ 期待する・予期する ]<br>
@@ -63,7 +63,7 @@ end
 
 <br>
 
-<span id='before'></a>
+<span id='before'></span>
 ## before
 
 [ 〜の前に ]<br>
@@ -81,7 +81,7 @@ before { 処理 }
 
 <br>
 
-<span id='shared_examples'></a>
+<span id='shared_examples'></span>
 ## shared_examples
 
 <u>**テストの共有**</u>
