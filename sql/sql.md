@@ -1,5 +1,6 @@
 # SQL文
 
+- [MySQLにログイン(mysql)](#mysql)
 - [データベースの一覧(SHOW)](#show_d)
 - [データベースの選択(USE)](#use)
     - [使用中データベースの確認(SELECT)](#select_d)
@@ -7,6 +8,40 @@
 
 - [データの一覧(SELECT FROM)](#select_from)
 
+
+<span id='mysql'><span>
+## mysql
+Mysqlにログインする。
+
+```bash
+mysql -u <ユーザー名> -p
+
+# docker使用時
+mysql -u <ユーザー名> -p -h <ホスト名(サービス名)> -P <ポート番号>
+```
+
+<details>
+
+実行結果
+
+```bash
+$ mysql -u root -p
+Enter password:    # パスワードを入力
+```
+
+**【オプション】**
+
+| オプション | 意味 |
+| ---------- | ---- |
+| -u | ユーザー名を指定 |
+| -p | パスワードを入力 |
+| -h | ホスト名を指定 |
+| -P | ポート番号を指定 |
+
+</details>
+
+
+<br>
 
 <span id='show_d'></span>
 ## SHOW
