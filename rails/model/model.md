@@ -1,7 +1,7 @@
 # model
 
 ## scope
-[Railsガイド](#https://railsguides.jp/active_record_querying.html#%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97)
+[Railsガイド](https://railsguides.jp/active_record_querying.html#%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97)
 
 <br>
 
