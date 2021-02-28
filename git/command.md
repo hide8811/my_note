@@ -17,6 +17,7 @@
 ---
 
 - [インデックスに追加(add)](#add)
+    - [変更の一部を追加(-p)](#add-p)
 - [リポジトリに保存(commit)](#commit)
     - [hookのスキップ(-n)](#commit-n)
 - [リモートリポジトリに変更を上げる(push)](#push)
@@ -125,6 +126,41 @@ git add .
 # 一部のファイル
 git add <ファイル名> <ファイル名>
 ```
+
+<span id='add-p'></span>
+### -p
+確認しながらインデックスに追加する。
+
+```bash
+git add -p <ファイル名>
+```
+
+```bash
+$ git add -p test.txt
+diff --git a/test.txt b/test.txt
+index 9daeafb..a6b1ac7 ******
+--- a/test.txt
++++ b/test.txt
+@@ -1 +1,7 @@
+ test
++
++test1
++
++test2
++
++test3
+(1/1) Stage this hunk [y,n,q,a,d,e,?]?
+```
+
+|  | 意味 |
+|:-:|:---|
+| **y** | インデックスに追加 |
+| **n** | 追加しない |
+| **q** | 終了(以降を全て追加しない) |
+| **a** | 以降を全て追加 |
+| **k** | 戻る |
+| **s** | さらに細かく |
+| **e** | 手動で編集(vim) |
 
 <span id='commit'></span>
 ## commit
