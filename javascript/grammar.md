@@ -7,6 +7,7 @@
     - [関数宣言(function f())](#function_declaration)
     - [関数式(= function()](#function_based)
     - [アロー関数(() =>)](#arrow)
+- [式展開(\`${}\`)](#type_expansion)
 
 <span id='var'></span>
 ## var
@@ -290,6 +291,61 @@ console.log(num); // => 1
 ## function
 関数
 
+<details>
+
+#### 関数宣言と関数式の違い
+
+**関数宣言** => 巻き上げが起こり、宣言前でも使用可。<br>
+**関数式** => 巻き上げは起こらず、定義前に使用することはできない。
+
+```javascript
+// 関数宣言
+greeting('Hello'); // => Hello
+
+function greeting(word) {
+  console.log(word);
+}
+
+greeting('Good Afternoon'); // => Good Afternoon
+```
+```javascript
+// 関数式
+greeting('Hello'); // => Uncaught ReferenceError: Cannot access 'greeting' before initialization
+
+const greeting = function(word) {
+  console.log(word);
+}
+
+greeting('Good Afternoon'); // => Good Afternoon
+```
+
+#### 関数式とアロー関数の違い
+
+**関数式** => 'this'は、関数が呼び出されたとき変化する。<br>
+**アロー関数** => 'this'を持たず、変化しない。
+
+```html
+<button type='button' id='btn'>ボタン</button>
+```
+```javascript
+// 関数式
+const btn = document.getElementById('btn');
+
+btn.addEventListener('click', function() {
+  console.log(this); // => <button type="button" id="btn">ボタン</button>
+});
+```
+```javascript
+// アロー関数
+const btn = document.getElementById('btn');
+
+btn.addEventListener('click', () => {
+  console.log(this); // Window {window: Window, self: Window, document: document, name: "", location: Location, …}
+});
+```
+
+</details>
+
 <span id='function_declaration'></span>
 ### function f()
 関数宣言。<br>
@@ -318,7 +374,7 @@ const <変数・定数名> = function() {
 `;`(セミコロン)必要。
 
 <span id='arrow'></span>
-## () =>
+### () =>
 アロー関数。
 
 ```javascript
@@ -340,3 +396,26 @@ const <変数・定数名> = () => {
 // 処理が1行
 const <変数・定数名> = () => <処理>;
 ```
+
+<span id='type_expansion'></span>
+## \`${}\`
+文字列内で変数を展開する。
+
+文字列は`` ` ``(バッククォート)で囲む。<br>
+変数は`${}`で囲む。
+
+```javascript
+`---${<変数名>}---`
+```
+
+<details>
+
+```javascript
+function greeting(name) {
+  console.log(`Hello ${name}!`);
+}
+
+greeting('World'); // => Hello World!
+```
+
+</details>
