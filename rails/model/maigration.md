@@ -2,18 +2,20 @@
 [Railsガイド](#https://railsguides.jp/active_record_migrations.html)
 
 - [モデルの作成(g model)](#g-model)
-- [マイグレーションファイルの作成(g maigration)](#g-maigration)
+- [マイグレーションファイルの作成(g migration)](#g-migration)
     - [カラムの追加(add_column)](#add_column)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
 
-<span id='g-model'>
+<span id='g-model'></span>
 ## g model
 モデルを作成する。
 
+<span style='font-weight: bold; color: darkcyan;'>rails g model</span> <span style='color: gray;'>モデル名 カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span style='color: gray;'>データ型</span>
+
 ```bash
-rails g model <モデル名> <カラム名>:<データ型> <カラム名>:<データ型>
+$ rails g model ModelName column_name:data_type column_name:data_type
 ```
 <span style='padding: 0 .5rem; border: thin solid;'>モデル名</span> 先頭大文字・キャメルケース・<u>**単数形**</u> (先頭小文字・スネークケースでも可)
 
@@ -44,12 +46,16 @@ end
 
 <br>
 
-<span id='g-maigration'></span>
-## g maigrate
+<span id='g-migration'></span>
+## g migrate
 マイグレーションファイルを作成。
 
-```bahs
-rails g maigration <マイグレーション名> <カラム名>:<データ型> <カラム名>:<データ型>
+<span style='font-weight: bold; color: darkcyan;'>raisl g migration</span> <span styel='color: gray;'>マイグレーション名
+ カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型
+ カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
+
+```bash
+$ rails g migration migrationName column_name:data_type column_name:data_type
 ```
 
 <br>
@@ -58,8 +64,19 @@ rails g maigration <マイグレーション名> <カラム名>:<データ型> <
 ### add_column
 カラムを追加する。
 
+<span style='font-weight: bold; color: darkcyan;'>rails g migration Add</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>To</span><span styel='color: gray;'>テーブル名
+ カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
+
+<br>
+
+複数カラムも可。
+
+<span style='font-weight: bold; color: darkcyan;'>rails g migration Add</span><span styel='color: gray;'>Columns</span><span style='font-weight: bold; color: darkcyan;'>To</span><span styel='color: gray;'>テーブル名
+ カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型
+ カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
+
 ```bash
-rails g maigration Add<カラム名>To<テーブル名>
+rails g migration AddColumnNameToTableName(s) column_name:data_type
 ```
 ```ruby
 # db/migrate/**************_add_<カラム名>_to_<テーブル名>.rb
@@ -89,6 +106,23 @@ class AddBirthdayToUsers < ActiveRecord::Migration[6.1]
 end
 ```
 
+<br>
+
+【複数カラム】
+
+```bash
+$ rails g migration AddColumnsToUsers birthday:date sex:integer
+```
+```ruby
+# db/migrate/**************_add_columns_to_users.rb
+
+class AddColumnsToUsers < ActiveRecord::Migration[6.1]
+  def change
+    add_column :users, :birthday, :date
+    add_column :users, :sex, :integer
+  end
+end
+```
 </details>
 
 <br>
