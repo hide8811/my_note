@@ -4,6 +4,7 @@
 - [モデルの作成(g model)](#g-model)
 - [マイグレーションファイルの作成(g migration)](#g-migration)
     - [カラムの追加(add_column)](#add_column)
+    - [カラムの削除(remove_column)](#remove_column)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
@@ -123,6 +124,37 @@ class AddColumnsToUsers < ActiveRecord::Migration[6.1]
   end
 end
 ```
+</details>
+
+<br>
+
+### remove_column
+カラムの削除。
+
+<span style='font-weight: bold; color: darkcyan;'>rails g migration Remove</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>From</span><span styel='color: gray;'>テーブル名 カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
+
+```bash
+$ rails g migration RemoveColumnNameFromTableName(s) column_name:data_type
+```
+
+<details>
+
+```bash
+$ rails g migration RemoveBirthdayFromUsers birthday:date
+Running via Spring preloader in process 26
+      invoke  active_record
+      create    db/migrate/**************_remove_birthday_from_users.rb
+```
+```ruby
+# db/migrate/**************_remove_birthday_from_users.rb
+
+class RemoveBirthdayFromUsers < ActiveRecord::Migration[6.1]
+  def change
+    remove_column :users, :birthday, :date
+  end
+end
+```
+
 </details>
 
 <br>
