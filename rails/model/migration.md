@@ -133,6 +133,8 @@ end
 
 <span style='font-weight: bold; color: darkcyan;'>rails g migration Remove</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>From</span><span styel='color: gray;'>テーブル名 カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
 
+<span style='border-bottom: thin solid crimson'>データ型を指定しないとロールバックできなくなる。</span>
+
 ```bash
 $ rails g migration RemoveColumnNameFromTableName(s) column_name:data_type
 ```
@@ -154,6 +156,7 @@ class RemoveBirthdayFromUsers < ActiveRecord::Migration[6.1]
   end
 end
 ```
+
 
 </details>
 
