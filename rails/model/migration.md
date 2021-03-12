@@ -13,12 +13,36 @@
 ## g model
 モデルを作成する。
 
-<span style='font-weight: bold; color: darkcyan;'>rails g model</span> <span style='color: gray;'>モデル名 カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span style='color: gray;'>データ型</span>
+<span style='font-weight: bold; color: darkcyan;'>rails g model</span> <span style='color: gray;'>モデル名 カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span style='color: gray;'>データ型 カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span style='color: gray;'>データ型</span>
 
 ```bash
 $ rails g model ModelName column_name:data_type column_name:data_type
 ```
+
 <span style='padding: 0 .5rem; border: thin solid;'>モデル名</span> 先頭大文字・キャメルケース・<u>**単数形**</u> (先頭小文字・スネークケースでも可)
+
+<span style='color: forestgreen;'>= 自動生成 =</span>
+
+```ruby
+# db/migrate/**************_create_model_name.rb
+
+class CreateModelName < ActiveRecord::Migration[6.1]
+  def change
+    create_table :model_name do |t|
+      t.data_type :column_name
+
+      t.timestamps
+    end
+  end
+end
+```
+
+```ruby
+# app/models/model_name.rb
+
+class ModelName < ApplicationRecord
+end
+```
 
 <details>
 
@@ -56,7 +80,7 @@ end
  カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
 
 ```bash
-$ rails g migration migrationName column_name:data_type column_name:data_type
+$ rails g migration MigrationName column_name:data_type column_name:data_type
 ```
 
 <br>
@@ -65,26 +89,22 @@ $ rails g migration migrationName column_name:data_type column_name:data_type
 ### add_column
 カラムを追加する。
 
-<span style='font-weight: bold; color: darkcyan;'>rails g migration Add</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>To</span><span styel='color: gray;'>テーブル名
- カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
-
-<br>
-
-複数カラムも可。
-
 <span style='font-weight: bold; color: darkcyan;'>rails g migration Add</span><span styel='color: gray;'>Columns</span><span style='font-weight: bold; color: darkcyan;'>To</span><span styel='color: gray;'>テーブル名
  カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型
  カラム名</span><span style='font-weight: bold; color: darkcyan;'>:</span><span styel='color: gray;'>データ型</span>
 
 ```bash
-rails g migration AddColumnNameToTableName(s) column_name:data_type
+$ rails g migration AddColumnNameToTableName(s) column_name:data_type
 ```
-```ruby
-# db/migrate/**************_add_<カラム名>_to_<テーブル名>.rb
 
-class <マイグレーション名> < ActiveRecord::Migration[6.1]
+<span style='color: forestgreen;'>= 自動生成 =</span>
+
+```ruby
+# db/migrate/**************_add_column_name_to_table_names.rb
+
+class AddColumnNameToTableName < ActiveRecord::Migration[6.1]
   def change
-    add_column :<テーブル名>, :<カラム名>, :<カラム型>
+    add_column :table_name, :column_name, :data_type
   end
 end
 ```
@@ -97,6 +117,9 @@ Running via Spring preloader in process 20
       invoke  active_record
       create    db/migrate/**************_add_birthday_to_users.rb
 ```
+
+<span style='color: forestgreen;'>= 自動生成 =</span>
+
 ```ruby
 # db/migrate/**************_add_birthday_to_users.rb
 
@@ -114,6 +137,9 @@ end
 ```bash
 $ rails g migration AddColumnsToUsers birthday:date sex:integer
 ```
+
+<span style='color: forestgreen;'>= 自動生成 =</span>
+
 ```ruby
 # db/migrate/**************_add_columns_to_users.rb
 
@@ -128,6 +154,7 @@ end
 
 <br>
 
+<span id='remove_column'></span>
 ### remove_column
 カラムの削除。
 
@@ -137,6 +164,18 @@ end
 
 ```bash
 $ rails g migration RemoveColumnNameFromTableName(s) column_name:data_type
+```
+
+<span style='color: forestgreen;'>= 自動生成 =</span>
+
+```ruby
+# db/migrate/**************_remove_column_name_from_table_names.rb
+
+class RemoveColumnNameFromTableNames < ActiveRecord::Migration[6.1]
+  def change
+    remove_column :table_name, :column_name, :data_type
+  end
+end
 ```
 
 <details>
