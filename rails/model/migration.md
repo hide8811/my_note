@@ -5,6 +5,7 @@
 - [マイグレーションファイルの作成(g migration)](#g-migration)
     - [カラムの追加(add_column)](#add_column)
     - [カラムの削除(remove_column)](#remove_column)
+    - [カラム名を変更(rename_column)](#rename_column)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
@@ -196,6 +197,50 @@ class RemoveBirthdayFromUsers < ActiveRecord::Migration[6.1]
 end
 ```
 
+
+</details>
+
+<br>
+
+<span id='rename_column'></span>
+### rename_column
+カラム名の変更。
+
+<span style='font-weight: bold; color: darkcyan;'>rails g migration Rename</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>Of</span><span styel='color: gray;'>テーブル名
+
+```bash
+$ rails g migration RenameColumnNameOfTableName(s)
+```
+
+<span style='color: crimson;'>= 自己編集 =</span>
+
+```ruby
+class RenameColumnNameOfTableName < ActiveRecord::Migration[6.1]
+  def change
+    rename_column :table_name(s), :old_column_name, :new_column_name    # 追加
+    rename_column :table_name(s), :old_column_name, :new_column_name    # 複数可
+  end
+end
+```
+
+<details>
+
+```bash
+$ rails g migration RenameFugaOfHoges
+Running via Spring preloader in process 26
+      invoke  active_record
+      create    db/migrate/**************_rename_fuga_of_hoges.rb
+```
+
+```ruby
+# db/migrate/**************_rename_fuga_of_hoges.rb
+
+class RemoveFugaOfHoges < ActiveRecord::Migration[6.1]
+  def change
+    reneme_column :hoges, :fuga, :piyo    # 追加
+  end
+end
+```
 
 </details>
 
