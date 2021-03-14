@@ -6,6 +6,7 @@
     - [カラムの追加(add_column)](#add_column)
     - [カラムの削除(remove_column)](#remove_column)
     - [カラム名を変更(rename_column)](#rename_column)
+    - [カラム情報の変更(change_column)](#change_column)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
@@ -239,6 +240,66 @@ class RemoveFugaOfHoges < ActiveRecord::Migration[6.1]
   def change
     reneme_column :hoges, :fuga, :piyo    # 追加
   end
+end
+```
+
+</details>
+
+<br>
+
+<span id='change_column'></span>
+### change_column
+カラムの情報(データ型)などを変更。
+
+<span style='font-weight: bold; color: darkcyan;'>rails g migration Change</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>Of</span><span styel='color: gray;'>テーブル名
+
+```bash
+$ rails g migration ChangeColumnNameOfTableName(s)
+```
+
+<span style='color: crimson;'>= 自己編集 =</span>
+
+```ruby
+class ChangeColumnNameOfTableNames < ActiveRecord::Migration[6.1]
+  # def change     削除
+  # end            削除
+
+  # 以下を追加
+  def up
+    change_column :table_name(s), :column_name, :new_data_type
+  end
+
+  def down
+    change_column :table_name(s), :column_name, :old_data_type
+  end
+end
+```
+
+`change_column`は`change`メソッドでサポートされていないため、`change`メソッドに記載するとロールバックができない。<br>
+そのため、`up`・`down`メソッドを使用する。
+
+<span style='color: crimson;'>**up**</span>: 変更する内容<br>
+<span style='color: darkcyan;'>**down**</span>: 変更前の内容
+
+<details>
+
+```bash
+$ rails g migration ChangeFugaOfHoges
+Running via Spring preloader in process 27
+      invoke  active_record
+      create    db/migrate/**************_change_fuga_of_hoges.rb
+```
+
+```ruby
+# db/migrate/**************_change_fuga_of_hoges.rb
+
+class ChangeFugaOfHoges < ActiveRecord::Migration[6.1]
+  def up
+    change_column :hoges, :fuga, :string
+  end
+
+  def down
+    change_column :hoges, :fuga, :integer
 end
 ```
 
