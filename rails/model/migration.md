@@ -7,6 +7,7 @@
     - [カラムの削除(remove_column)](#remove_column)
     - [カラム名を変更(rename_column)](#rename_column)
     - [カラム情報の変更(change_column)](#change_column)
+    - [インデックスを付与(add_index)](#add_index)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
@@ -300,6 +301,49 @@ class ChangeFugaOfHoges < ActiveRecord::Migration[6.1]
 
   def down
     change_column :hoges, :fuga, :integer
+end
+```
+
+</details>
+
+<br>
+
+<span id='add_index'></span>
+### add_index
+カラムにインデックスを付与。
+
+<span style='font-weight: bold; color: darkcyan;'>rails g migration AddIndex</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>Of</span><span styel='color: gray;'>テーブル名
+
+```bash
+$ rails g migration AddIndexColumnNameOfTableName(s)
+```
+
+<span style='color: crimson;'>= 自己編集 =</span>
+
+```ruby
+class AddIndexColumnNameOfTableNames < ActiveRecord::Migration[6.1]
+  def change
+    add_index :table_name(s), :column_name    # 追加
+  end
+end
+```
+
+<details>
+
+```bash
+$ rails g migration AddIndexNameOfUsers
+Running via Spring preloader in process 27
+      invoke  active_record
+      create    db/migrate/**************_add_index_name_of_users.rb
+```
+
+```ruby
+# db/migrate/**************_add_index_name_of_users.rb
+
+class AddIndexNameOfUsers < ActiveRecord::Migration[6.1]
+  def change
+    add_index :users, :name
+  end
 end
 ```
 
