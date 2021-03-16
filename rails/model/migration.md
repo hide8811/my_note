@@ -155,6 +155,8 @@ end
 ```
 </details>
 
+[Railsドキュメント](https://railsdoc.com/page/add_column)
+
 <br>
 
 <span id='remove_column'></span>
@@ -202,6 +204,8 @@ end
 
 </details>
 
+[Railsドキュメント](https://railsdoc.com/page/remove_column)
+
 <br>
 
 <span id='rename_column'></span>
@@ -245,6 +249,8 @@ end
 ```
 
 </details>
+
+[Railsドキュメント](https://railsdoc.com/page/remove_column)
 
 <br>
 
@@ -306,6 +312,8 @@ end
 
 </details>
 
+[Railsドキュメント](https://railsdoc.com/page/change_column)
+
 <br>
 
 <span id='add_index'></span>
@@ -348,6 +356,8 @@ end
 ```
 
 </details>
+
+[Railsドキュメント](https://railsdoc.com/page/add_index)
 
 <br>
 
