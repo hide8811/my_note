@@ -8,6 +8,7 @@
     - [カラム名を変更(rename_column)](#rename_column)
     - [カラム情報の変更(change_column)](#change_column)
     - [インデックスを付与(add_index)](#add_index)
+        - [一意性の付与(unique: true)](#unique)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
@@ -356,6 +357,44 @@ end
 ```
 
 </details>
+
+<span id='unique'></span>
+#### unique: true
+オプションでカラムに一意性をつける。<br>
+一意性をつけるときはインデックスが必要。(一意かどうかを検索するため)
+
+<span style='font-weight: bold; color: darkcyan;'>rails g migration AddUniquness</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>Of</span><span styel='color: gray;'>テーブル名
+
+```bash
+$ rails g migration AddUniqunessFugaOfHoges
+```
+
+<span style='color: crimson;'>= 自己編集 =</span>
+
+```ruby
+# db/migrate/**************_add_uniquness_fuga_of_hoges.rb
+
+class AddUniqunessFugaOfHoges < ActiveRecord::Migration[6.1]
+  def change
+    add_index :hoges, :fuga, unique: true    # 追加
+  end
+end
+```
+
+<br>
+
+複数の組み合わせの一意性を作るには、**カラムを配列**にする。
+
+```ruby
+# db/migrate/**************_add_uniquness_fuga_of_hoges.rb
+
+class AddUniqunessFugaOfHoges < ActiveRecord::Migration[6.1]
+  def change
+    add_index :hoges, [:fuga, :piyo, :hogehoge], unique: true    # 追加
+  end
+end
+```
+
 
 [Railsドキュメント](https://railsdoc.com/page/add_index)
 
