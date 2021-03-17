@@ -1,16 +1,16 @@
 # SQL文
 
-- [MySQLにログイン(mysql)](#mysql)
-- [データベースの一覧(SHOW)](#show_d)
-- [データベースの選択(USE)](#use)
-    - [使用中データベースの確認(SELECT)](#select_d)
-- [テーブルの一覧(SHOW)](#show_t)
+- [MySQLにログイン( mysql ••• )](#mysql)
+- [データベースの一覧( SHOW DATABASES; )](#show_d)
+- [データベースの選択( USE •••; )](#use)
+    - [使用中データベースの確認( SELECT DATABASE(); )](#select_d)
+- [テーブルの一覧( SHOW TABLES; )](#show_t)
 
-- [データの一覧(SELECT FROM)](#select_from)
+- [データの一覧( SELECT ••• FROM •••; )](#select_from)
 
 
 <span id='mysql'><span>
-## mysql
+## mysql •••
 Mysqlにログインする。
 
 ```bash
@@ -40,11 +40,10 @@ Enter password:    # パスワードを入力
 
 </details>
 
-
 <br>
 
 <span id='show_d'></span>
-## SHOW
+## SHOW DATABASES;
 データベースの一覧を確認する。
 
 ```SQL
@@ -68,16 +67,20 @@ SHOW DATABASES;
 ```
 </details>
 
+<br>
+
 <span id='use'></span>
-### USE
+## USE •••;
 操作するデータベースを選択する。
 
 ```SQL
 USE <データベース名>;
 ```
 
+<br>
+
 <span id=select_d></span>
-### SELECT DATABASE()
+### SELECT DATABASE();
 使用中のデータベースを確認する。
 
 ```SQL
@@ -113,8 +116,47 @@ mysql> SELECT database();
 
 </details>
 
+<br>
+
+<span id='show_t'></span>
+## SHOW TABLES;
+テーブル一覧の表示。
+
+データベース選択時
+```SQL
+SHOW TABLES;
+```
+
+<br>
+
+データベース未選択時
+```SQL
+SHOW TABLES FROM <テーブル名>;
+```
+
+<details>
+
+実行結果(Rails [myapp])
+```SQL
+MySQL [myapp_development]> SHOW TABLES;
++-----------------------------+
+| Tables_in_myapp_development |
++-----------------------------+
+| ar_internal_metadata        |
+| books                       |
+| messages                    |
+| schema_migrations           |
+| users                       |
++-----------------------------+
+7 rows in set (0.003 sec)
+```
+
+</details>
+
+<br>
+
 <span id='select_from'></span>
-## SELECT FROM
+## SELECT ••• FROM •••;
 データを確認する。
 
 ```SQL
@@ -147,6 +189,7 @@ SELECT * FROM users;
 ```
 
 <br>
+
 【データが存在しないとき】
 
 ```SQL
