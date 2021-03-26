@@ -9,6 +9,7 @@
     - [カラム情報の変更(change_column)](#change_column)
     - [インデックスを付与(add_index)](#add_index)
         - [一意性の付与(unique: true)](#unique)
+        - [インデックス名をつける(name:)](#index_name)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
@@ -395,6 +396,30 @@ class AddUniqunessFugaOfHoges < ActiveRecord::Migration[6.1]
 end
 ```
 
+<span id='index_name'></span>
+#### name: 'index_name'
+任意のインデックス名をつける。<br>
+
+```ruby
+# db/migrate/**************_add_uniquness_fuga_of_hoges.rb
+
+class AddUniqunessFugaOfHoges < ActiveRecord::Migration[6.1]
+  def change
+    add_index :hoges, [:fuga, :piyo, :hogehoge], unique: true, name: 'index_hoges_on_fugafuga_columns'    # 追加
+  end
+end
+```
+
+<details>
+
+通常は自動で付けられる`(index_テーブル名_on_カラム名_and_カラム名_and_カラム名)`が、<br>
+インデックス名が64文字を超えるとエラーになる。<br>
+
+```bash
+ArgumentError: Index name 'index_テーブル名_on_カラム名_and_カラム名_and_カラム名' on table 'テーブル名' is too long; the limit is 64 characters
+```
+
+</details>
 
 [Railsドキュメント](https://railsdoc.com/page/add_index)
 
