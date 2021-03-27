@@ -10,6 +10,7 @@
     - [インデックスを付与(add_index)](#add_index)
         - [一意性の付与(unique: true)](#unique)
         - [インデックス名をつける(name:)](#index_name)
+    - [インデックスの削除(remove_index)](#remove_index)
 - [実行(db:migrate)](#db-migrate)
 - [状態確認(status)](#status)
 - [戻す(rollback)](#rollback)
@@ -422,6 +423,31 @@ ArgumentError: Index name 'index_テーブル名_on_カラム名_and_カラム�
 </details>
 
 [Railsドキュメント](https://railsdoc.com/page/add_index)
+
+<br>
+
+<span id='remove_index'></span>
+### remove_index
+カラムからインデックスを外す。<br>
+一意性(`unique: true`)も外すことができる。
+
+<span style='font-weight: bold; color: darkcyan;'>rails g migration RemoveIndex</span><span styel='color: gray;'>カラム名</span><span style='font-weight: bold; color: darkcyan;'>Of</span><span styel='color: gray;'>テーブル名
+
+```bash
+$ rails g migration RemoveIndexFugaOfHoges
+```
+
+<span style='color: crimson;'>= 自己編集 =</span>
+
+```ruby
+# db/migrate/**************_remove_index_fuga_of_hoges.rb
+
+class RemoveIndexFugaOfHoges < ActiveRecord::Migration[6.1]
+  def change
+    remove_index :hoges, :fuga   # 追加
+  end
+end
+```
 
 <br>
 
