@@ -451,6 +451,36 @@ end
 
 <br>
 
+複数カラムの場合はカラムを配列にする。
+
+```ruby
+# db/migrate/**************_remove_index_fuga_of_hoges.rb
+
+class RemoveIndexFugaOfHoges < ActiveRecord::Migration[6.1]
+  def change
+    remove_index :hoges, %i[fuga piyo]   # 追加
+  end
+end
+```
+
+#### name: :index_name
+`add_index`で、インデックス名を付けたとき、`remove_index`のときも指定する。
+
+```ruby
+remove_index :hoges, :fuga, name: 'index_name'
+```
+
+<details>
+
+`name`指定なしでもインデックスの削除は可能。<br>
+だが、ロールバック時にインデックス名が自動生成されたモノになってしまう。(`index_テーブル名_on_カラム名`)<br>
+
+</details>
+
+[Railsドキュメント](https://railsdoc.com/page/remove_index)
+
+<br>
+
 <span id='db-migrate'></span>
 ## db:migrate
 マイグレーションファイルの実行。
