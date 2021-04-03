@@ -1,6 +1,18 @@
 # 正規表現
 [リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/doc/spec=2fregexp.html)
 
+- [オプション](#option)
+    - [部分正規表現](#part)
+    - [**i** (大文字小文字無視)](#ignorecase)
+    - [**m** (`.`の改行マッチ)](#multiline)
+    - [**x** (空白・コメント無視)](#extended)
+    - [**o** (式展開初回のみ)](#o_option)
+- [メタ文字](#meta_character)
+    - [**.** (任意の1文字)](#dot)
+    - [**[]** (いずれか1文字)](#square_brackets)
+        - [**[^]** (以外の一文字)](#denial_square_brackets)
+        - [**[-]** (連続する範囲)](#range_square_brackets)
+
 ## Regexpクラス
 
 - スラッシュ(`/`)で囲む。
@@ -36,9 +48,110 @@ Regexp.new('https://www.google.com')
 
 </details>
 
+<span id='option'></span>
 ## オプション
 
-### Ignorecase
+| / | new | 意味 |
+|:-:|:---:|:----:|
+| [i](#ignorecase) | Regexp::IGNORECASE | 大文字小文字を無視 |
+| [m](#multiline) | Regexp::MULTILINE | `.`が改行マッチ |
+| [x](#extended) | Regexp::EXTENDED | 空白・コメント無視 |
+| [o](#o_option) | --- | 式展開を初回限定 |
+
+<br>
+
+正規表現リテラルの直後に記載。
+
+```ruby
+# //
+/pattern/i
+/pattern/im
+
+# %r
+%r(pattern)i
+%r(pattern)im
+
+# new
+Regexp.new('pattern', Regexp::IGNORECASE)
+Regexp.new('pattern', Regexp::IGNORECASE | Regexp::MULTILINE)
+```
+
+<span id='part'></span>
+### 部分正規表現
+
+部分的にオプションを反映させる。
+
+#### (?on) (?-off)
+
+**`(?on)`** => 以降全てにオプションを有効化。<br>
+**`(?-off)`** => 以降全てのオプションを無効化。
+
+```ruby
+/ab(?i)cd/
+
+/ab(?-i)cd/i
+```
+
+<details>
+
+```ruby
+/hoge(?i)fuga/ === 'hogeFUGA'
+# => true
+
+/hoge(?i)fuga/ === 'HOGEfuga'
+# => false
+```
+
+```ruby
+/hoge(?-i)fuga/i === 'hogeFUGA'
+# => false
+
+/hoge(?-i)fuga/i === 'HOGEfuga'
+# => true
+```
+
+</details>
+
+#### (?:(?on)pattern)
+
+`(?:)`でグループ化。括弧内のみ反映される。
+
+```ruby
+/ab(?:(?i)cd)ef/
+
+/ab(?:(?-i)cd)ef/i
+```
+
+<details>
+
+```ruby
+/hoge(?:(?i)fuga)piyo/ === 'hogeFUGApiyo'
+# => true
+
+/hoge(?:(?i)fuga)piyo/ === 'HOGEfugapiyo'
+# => false
+
+/hoge(?:(?i)fuga)piyo/ === 'hogefugaPIYO'
+# => false
+```
+
+```ruby
+/hoge(?:(?-i)fuga)piyo/i === 'hogeFUGApiyo'
+# => false
+
+/hoge(?:(?-i)fuga)piyo/i === 'HOGEfugapiyo'
+# => true
+
+/hoge(?:(?-i)fuga)piyo/i === 'hogefugaPIYO'
+# => true
+```
+
+</details>
+
+<br>
+
+<span id='ignorecase'></span>
+### i / Ignorecase
 
 大文字小文字を区別しない。
 
@@ -71,7 +184,8 @@ Regexp.new('pattern', Regexp::IGNORECASE)
 
 </details>
 
-### Multiline
+<span id='multiline'></span>
+### m / Multiline
 
 `.`が、改行にもマッチ。
 
@@ -98,7 +212,8 @@ Regexp.new('pattern', Regexp::MULTILINE)
 
 </details>
 
-### Extended
+<span id='extended'></span>
+### x / Extended
 
 パターン内の空白やコメントを無視する。
 
@@ -127,6 +242,52 @@ Pregexp.new('pattern', Regexp::EXTENDED)
 
 </details>
 
+<span id='o_option'></span>
+### o
+
+式展開を1回しかしない。<br>
+繰り返しなどのとき、無駄な展開がなくなる。
+
+```ruby
+# //
+/pattern/o
+
+# %r
+%r(pattern)o
+```
+
+<details>
+
+```ruby
+# o あり
+def check(text)
+  /#{@pattern}/o === text
+end
+
+@pattern = 'hoge'
+check('hoge')  # => true
+
+@pattern = 'fuga'
+check('fuga')  # => false
+check('hoge')  # => true
+
+#-----------------------------
+# o なし
+def check(text)
+  /#{@pattern}/ === text
+end
+
+@pattern = 'hoge'
+check('hoge')  # => true
+
+@pattern = 'fuga'
+check('fuga')  # => true
+check('hoge')  # => false
+```
+
+</details>
+
+<span id='meta_character'></span>
 ## メタ文字
 
 | 記号 | 意味 |
@@ -135,3 +296,136 @@ Pregexp.new('pattern', Regexp::EXTENDED)
 | [[ ]](#square_brackets) |いずれか一文字 |
 | [^](#caret) | 行頭 |
 | [$](#dollar) | 行末 |
+
+<span id='dot'></span>
+### .
+
+任意の1文字。<br>
+改行は除く。`m`オプションでマッチ。
+
+```ruby
+/aa.bb/
+```
+
+<details>
+
+```ruby
+/b.t/ === 'bet'  # => true
+/b.t/ === 'bat'  # => true
+/b.t/ === 'bit'  # => true
+/b.t/ === 'bt'  # => false
+/b.t/ === 'boot'  # => false
+/b.t/ === 'beta'  # => false
+```
+
+</details>
+
+<span id='square_brackets'></span>
+### []
+
+`[]`内のいずれか一文字。
+
+```ruby
+/a[bcd]e/
+```
+
+<details>
+
+```ruby
+/b[aei]t/ === 'bat'  # => true
+/b[aei]t/ === 'bet'  # => true
+/b[aei]t/ === 'bit'  # => true
+/b[aei]t/ === 'bot'  # => false
+/b[aei]t/ === 'bt'  # => false
+/b[aei]t/ === 'beet'  # => false
+/b[aei]t/ === 'beat'  # => false
+```
+
+</details>
+
+<span id='denial_square_brackets'></span>
+#### [^]
+
+`[]`内のいずれか以外の一文字。
+
+```ruby
+/a[^bcd]e/
+```
+
+<details>
+
+```ruby
+/b[^aei]t/ === 'bot'  # => true
+/b[^aei]t/ === 'bat'  # => false
+/b[^aei]t/ === 'bet'  # => false
+/b[^aei]t/ === 'bit'  # => false
+```
+
+</details>
+
+<span id='range_square_brackets'></span>
+#### [-]
+
+連続した文字や数字は、`-`で省略可。
+
+```ruby
+/a[b-f]g/
+
+/0[1-5]6/
+
+/a[b-f1-5]g/
+```
+
+<details>
+
+```ruby
+/b[a-j]t/ === 'bat'  # => true
+/b[a-j]t/ === 'bet'  # => true
+/b[a-j]t/ === 'bit'  # => true
+/b[a-j]t/ === 'bot'  # => false
+```
+
+</details>
+
+<span id='caret'></span>
+### ^
+
+行頭(文字列の先頭・改行の次)。
+
+```ruby
+/^pattern/
+```
+
+<details>
+
+```ruby
+/^hoge/ === 'hogefuga'  # => true
+/^hoge/ === 'fugahoge'  # => false
+
+/^hoge/ === "fuga\nhoge"  # => true
+/^hoge/ =~ "fuga\nhoge"  # => 5
+```
+
+</details>
+
+<span id='dollar'></span>
+### $
+
+行末(文字列の末尾・改行の手前)。
+
+```ruby
+/pattern$/
+```
+
+<details>
+
+```ruby
+/hoge$/ === 'fugahoge'  # => true
+/hoge$/ === 'hogefuga'  # => false
+
+/hoge$/ === "hoge\nfuga"  # => true
+/hoge$/ === "fugahoge\npiyo"  # => true
+/hoge$/ =~ "fugahoge\npiyo"  # => 5
+```
+
+</details>
