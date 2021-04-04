@@ -12,6 +12,10 @@
     - [**[]** (いずれか1文字)](#square_brackets)
         - [**[^]** (以外の一文字)](#denial_square_brackets)
         - [**[-]** (連続する範囲)](#range_square_brackets)
+    - [**\d** (数字)](#number)
+    - [**\D** (数字以外)](#non_number)
+    - [**^** (行頭)](#caret)
+    - [**$** (行末)](#dollar)
 
 ## Regexpクラス
 
@@ -184,6 +188,8 @@ Regexp.new('pattern', Regexp::IGNORECASE)
 
 </details>
 
+<br>
+
 <span id='multiline'></span>
 ### m / Multiline
 
@@ -211,6 +217,8 @@ Regexp.new('pattern', Regexp::MULTILINE)
 ```
 
 </details>
+
+<br>
 
 <span id='extended'></span>
 ### x / Extended
@@ -241,6 +249,8 @@ Pregexp.new('pattern', Regexp::EXTENDED)
 ```
 
 </details>
+
+<br>
 
 <span id='o_option'></span>
 ### o
@@ -294,8 +304,16 @@ check('hoge')  # => false
 |:----:|:----:|
 | [.](#dot) | 任意の一文字 |
 | [[ ]](#square_brackets) |いずれか一文字 |
+| [\w](#alphanumeric) | 英数アンダーバー [a-zA-Z0-9] |
+| [\W](#non_alphanumeric) | 英数アンダーバー以外 [^a-zA-Z0-9] |
+| [\d](#number) | 数字 [0-9] |
+| [\D](#non_number) | 数字以外 [^0-9] |
+| [\s](#blank_character) | 空白文字 [\t\r\n\f\v] |
+| [\S](#non_blank_characther) | 空白文字以外 [^\t\r\n\f\v] |
 | [^](#caret) | 行頭 |
 | [$](#dollar) | 行末 |
+
+<br>
 
 <span id='dot'></span>
 ### .
@@ -320,6 +338,8 @@ check('hoge')  # => false
 
 </details>
 
+<br>
+
 <span id='square_brackets'></span>
 ### []
 
@@ -343,6 +363,8 @@ check('hoge')  # => false
 
 </details>
 
+<br>
+
 <span id='denial_square_brackets'></span>
 #### [^]
 
@@ -362,6 +384,8 @@ check('hoge')  # => false
 ```
 
 </details>
+
+<br>
 
 <span id='range_square_brackets'></span>
 #### [-]
@@ -387,6 +411,191 @@ check('hoge')  # => false
 
 </details>
 
+<br>
+
+<span id='alphanumeric'></span>
+### \w
+
+英小文字・英大文字・数字・アンダーバー。`[a-zA-Z0-9]`と同じ。<br>
+半角のみ。全角は含まない。(ASCIIの範囲を対象)
+
+```ruby
+/\w/
+```
+
+<details>
+
+```ruby
+/\w/ === 'a'  # => true
+/\w/ === 'A'  # => true
+/\w/ === '1'  # => true
+/\w/ === '_'  # => true
+/\w/ === '-'  # => false
+/\w/ === ' '  # => false
+/\w/ === "\n"  # => false
+/\w/ === 'ａ'  # => false
+/\w/ === '１'  # => false
+
+/1\w1/ === '1a1'  # => true
+/1\w1/ === '1ab1'  # => false
+/1\w1/ === '1a21'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='non_alphanumeric'></span>
+### \W
+
+英小文字・英大文字・数字・アンダーバー以外。`[^a-zA-Z0-9]`と同じ。
+半角のみ。全角は可。(ASCIIの範囲を対象)
+
+```ruby
+/\W/
+```
+
+<details>
+
+```ruby
+/\W/ === 'a'  # => false
+/\W/ === 'A'  # => false
+/\W/ === '1'  # => false
+/\W/ === '_'  # => false
+/\W/ === '-'  # => true
+/\W/ === ' '  # => true
+/\W/ === "\n"  # => true
+/\W/ === 'ａ'  # => true
+/\W/ === '１'  # => true
+
+/1\W1/ === '1-1'  # => true
+/1\W1/ === '1--1'  # => false
+/1\W1/ === "1-\n1"  # => false
+```
+
+</details>
+
+<br>
+
+<span id='number'></span>
+### \d
+
+数字。`[0-9]`と同じ。
+半角のみ。全角は含まない。(ASCIIの範囲を対象)
+
+```ruby
+/\d/
+```
+
+<details>
+
+```ruby
+/\d/ === '1'  # => true
+/\d/ === 'a'  # => false
+
+/a\da/ === 'a1a'  # =>true
+/a\da/ === 'a12a'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='non_number'></span>
+### \D
+
+数字以外。`[^0-9]`と同じ。
+半角のみ。全角は可。(ASCIIの範囲を対象)
+
+```ruby
+/\D/
+```
+
+<details>
+
+```ruby
+/\D/ === 'a'  # => true
+/\D/ === '1'  # => false
+
+/1\D1/ === '1a1'  # => true
+/1\D1/ === '1ab1'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='blank_character'></span>
+### \s
+
+空白文字。`[ \t\r\n\f\v]`と同じ。
+
+```ruby
+/\s/
+```
+
+<details>
+
+| 空白文字 | 意味 |
+|:--------:|:----:|
+|   | スペース |
+| \t | タブ文字 (制御コード 0x09) |
+| \r | リターン (制御コード 0x0d) |
+| \n | 改行 |
+| \f | 改ページ (制御コード 0x0c) |
+| \v | 垂直タブ (制御コード 0x0b) |
+
+```ruby
+/\s/ === ' '  # => true
+/\s/ === "\t"  # => true
+/\s/ === "\r"  # => true
+/\s/ === "\n"  # => true
+/\s/ === "\f"  # => true
+/\s/ === "\v"  # => true
+/\s/ === '　'  # => false
+/\s/ === 'a'  # => false
+/\s/ === '1'  # => false
+
+/1\s1/ === '1 1'  # => true
+/1\s1/ === "1\n1"  # => true
+/1\s1/ === "1\n\n1"  # => false
+/1\s1/ === "1\n\f1"  # => false
+```
+
+</details>
+
+<br>
+
+<span id='not_blank_character'></span>
+### \S
+
+空白文字以外。`[^ \t\r\n\f\v]`と同じ。
+
+```ruby
+/\S/
+```
+
+<details>
+
+```ruby
+/\s/ === ' '  # => false
+/\s/ === "\t"  # => false
+/\s/ === "\r"  # => false
+/\s/ === "\n"  # => false
+/\s/ === "\f"  # => false
+/\s/ === "\v"  # => false
+/\s/ === '　'  # => true
+/\s/ === 'a'  # => true
+/\s/ === '1'  # => true
+
+/1\s1/ === "1aa1"  # => false
+/1\s1/ === "1ab1"  # => false
+```
+
+</details>
+
+<br>
+
 <span id='caret'></span>
 ### ^
 
@@ -407,6 +616,8 @@ check('hoge')  # => false
 ```
 
 </details>
+
+<br>
 
 <span id='dollar'></span>
 ### $
