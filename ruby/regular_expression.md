@@ -8,14 +8,33 @@
     - [**x** (空白・コメント無視)](#extended)
     - [**o** (式展開初回のみ)](#o_option)
 - [メタ文字](#meta_character)
-    - [**.** (任意の1文字)](#dot)
-    - [**[]** (いずれか1文字)](#square_brackets)
-        - [**[^]** (以外の一文字)](#denial_square_brackets)
-        - [**[-]** (連続する範囲)](#range_square_brackets)
-    - [**\d** (数字)](#number)
-    - [**\D** (数字以外)](#non_number)
-    - [**^** (行頭)](#caret)
-    - [**$** (行末)](#dollar)
+    - [文字](#character)
+        - [**.** (任意の1文字)](#dot)
+        - [**[]** (いずれか1文字)](#square_brackets)
+            - [**[^]** (以外の一文字)](#denial_square_brackets)
+            - [**[-]** (連続する範囲)](#range_square_brackets)
+        - [**\w** (英数アンダーバー)](#alphanumeric)
+        - [**\W** (英数アンダーバー以外)](#non_alphanumeric)
+        - [**\d** (数字)](#number)
+        - [**\D** (数字以外)](#non_number)
+        - [**\s** (空白文字)](#blank_character)
+        - [**\S** (空白文字以外)](#non_blank_characther)
+    - [アンカー](#anchor)
+        - [**^** (行頭)](#caret)
+        - [**$** (行末)](#dollar)
+        - [**\A** (文字列の先頭)](#string_first)
+        - [**\Z** (文字列の末尾)](#string_last)
+        - [**\z** (文字列の末尾 改行含む)](#string_last_linefeed)
+        - [**\b** (単語の境界)](#boundary)
+        - [**\B** (単語の境界以外)](#non_boundary)
+    - [繰り返し](#repeat)
+        - [**\*** (0回以上)](#zero_times)
+        - [**+** (1回以上)](#one_times)
+        - [**?** (0 or 1回)](#zero_or_one)
+        - [**{n}** (n回)](#n_times)
+        - [**{min,}** (min回以上)](#min)
+        - [**{,max}** (max回以下)](#max)
+        - [**{min, max}** (min回以上、max回以下)](#min_max)
 
 ## Regexpクラス
 
@@ -300,6 +319,13 @@ check('hoge')  # => false
 <span id='meta_character'></span>
 ## メタ文字
 
+特別な働きをする文字列。
+
+<br>
+
+<span id='character'></span>
+## 文字
+
 | 記号 | 意味 |
 |:----:|:----:|
 | [.](#dot) | 任意の一文字 |
@@ -310,8 +336,6 @@ check('hoge')  # => false
 | [\D](#non_number) | 数字以外 [^0-9] |
 | [\s](#blank_character) | 空白文字 [\t\r\n\f\v] |
 | [\S](#non_blank_characther) | 空白文字以外 [^\t\r\n\f\v] |
-| [^](#caret) | 行頭 |
-| [$](#dollar) | 行末 |
 
 <br>
 
@@ -596,6 +620,21 @@ check('hoge')  # => false
 
 <br>
 
+<span id='anchor'></span>
+## アンカー
+
+| 記号 | 意味 |
+|:----:|:----:|
+| [^](#caret) | 行頭 |
+| [$](#dollar) | 行末 |
+| [\A](#string_first) | 文字列の先頭 |
+| [\Z](#string_last) | 文字列の末尾 |
+| [\z](#string_last_linefeed) | 文字列の末尾 改行含む |
+| [\b](#boundary) | 単語の境界 |
+| [\B](#non_boundary) | 単語の境界以外 |
+
+<br>
+
 <span id='caret'></span>
 ### ^
 
@@ -637,6 +676,338 @@ check('hoge')  # => false
 /hoge$/ === "hoge\nfuga"  # => true
 /hoge$/ === "fugahoge\npiyo"  # => true
 /hoge$/ =~ "fugahoge\npiyo"  # => 5
+```
+
+</details>
+
+<br>
+
+<span id='string_first'></span>
+### \A
+
+文字列の先頭。
+
+```ruby
+/\Apattern/
+```
+
+<details>
+
+```ruby
+/\Ahoge/ === 'hoge fuga'  # => true
+/\Ahoge/ === 'hogefuga'  # => true
+/\Ahoge/ === 'fuga hoge'  # => false
+/\Ahoge/ === "fuga\nhoge"  # => false
+```
+
+</details>
+
+<br>
+
+<span id='string_last'></span>
+### \Z
+
+文字列の末尾。<br>
+改行であった場合、その手前。
+
+```ruby
+/pattern\Z/
+```
+
+<details>
+
+```ruby
+/hoge\Z/ === 'fuga hoge'  # => true
+/hoge\Z/ === 'fugahoge'  # => true
+/hoge\Z/ === 'hoge fuga'  # => false
+
+/hoge\Z/ === "fuga\nhoge"  # => true
+/hoge\Z/ === "fuga hoge\n"  # => true
+/hoge\Z/ === "fuga hoge\npiyo"  # => false
+```
+
+</details>
+
+<br>
+
+<span id='string_last_linefeed'></span>
+### \z
+
+文字列の末尾。<br>
+改行も含む。
+
+```ruby
+/pattern\z/
+```
+
+<details>
+
+```ruby
+/hoge\z/ === 'fuga hoge'  # => true
+/hoge\z/ === 'fugahoge'  # => true
+/hoge\z/ === 'hoge fuga'  # => false
+
+/hoge\z/ === "fuga\nhoge"  # => true
+/hoge\z/ === "fuga hoge\n"  # => false
+```
+
+</details>
+
+<br>
+
+<span id='boundary'></span>
+### \b
+
+単語の境界(先頭・末尾)。
+
+```ruby
+/\bpattern/
+
+/pattern\b/
+```
+
+<details>
+
+```ruby
+/\bho/ === 'hoxx'  # => true
+/\bho/ === 'xxxx hoxx xxxx'  # => true
+/\bho/ === 'xxho'  # => false
+
+/ho\b/ === 'xxho'  # => true
+/ho\b/ === 'xxxx xxho xxxx'  # => true
+/ho\b/ === 'hoxx'  # => true
+```
+
+</details>
+
+<br>
+
+<span id='non_boundary'></span>
+### \B
+
+単語の境界(先頭・末尾)以外。
+
+```ruby
+/\Bpattern/
+
+/pattern\B/
+```
+
+<details>
+
+```ruby
+/\Bho/ === 'xxho'  # => true
+/\Bho/ === 'xxxx xxho xxxx'  # => true
+/\Bho/ === 'xxhoxx'  # => true
+/\Bho/ === 'hoxx'  # => false
+/\Bho/ === 'xxxx hoxx'  # => false
+
+/ho\B/ === 'hoxx'  # => true
+/ho\B/ === 'xxxx hoxx xxxx'  # => true
+/ho\B/ === 'xxhoxx'  # => true
+/ho\B/ === 'xxho'  # => false
+/ho\B/ === 'xxho xxxx'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='repeat'></span>
+## 繰り返し
+
+| 記号 | 意味 |
+|:----:|:----:|
+| [*](#zero_times) | 0回以上 |
+| [+](#one_times)| 1回以上 |
+| [?](#zero_or_one) | 0か1回 |
+| [{n}](#n_times) | n回 |
+| [{min,}](#min) | min回以上 |
+| [{,max}](#max) | max回以下 |
+| [{min, max}](#min_max) | min回以上、max回以下 |
+
+<br>
+
+<span id='zero_times'></span>
+### *
+
+直前の文字を**0回以上**繰り返す。
+
+```ruby
+/pattern*/
+```
+
+<details>
+
+```ruby
+/h*/ === ''  # true
+/h*/ === 'h'  # true
+/h*/ === 'hh'  # true
+/h*/ === 'hhh'  # true
+/h*/ === 'abc'  # true
+
+/ho*g/ === 'hg'  # true
+/ho*g/ === 'hog'  # true
+/ho*g/ === 'hoog'  # true
+/ho*g/ === 'hooog'  # true
+/ho*g/ === 'hoge'  # true
+/ho*g/ === 'hooge'  # true
+/ho*g/ === 'hoeg'  # false
+```
+
+</details>
+
+<br>
+
+<span id='one_times'></span>
+### +
+
+直前の文字を**1回以上**繰り返す。
+
+```ruby
+/pattern+/
+```
+
+<details>
+
+```ruby
+/h+/ === 'h' # => true
+/h+/ === 'hh' # => true
+/h+/ === 'hhh' # => true
+/h+/ === ''  # => false
+/h+/ === 'abc'  # => false
+
+/ho+g/ === 'hog'  # => true
+/ho+g/ === 'hoog'  # => true
+/ho+g/ === 'hooog'  # => true
+/ho+g/ === 'hoge'  # => true
+/ho+g/ === 'hooge'  # => true
+/ho+g/ === 'hg'  # => false
+/ho+g/ === 'hoeg'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='zero_or_one'></span>
+### ?
+
+直前の文字が、**0回**か**1回**。
+
+```ruby
+/pattern?/
+```
+
+<details>
+
+```ruby
+/lo?l/ === 'll'  # => true
+/lo?l/ === 'lol'  # => true
+/lo?l/ === 'lool'  # => false
+/lo?l/ === 'logol'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='n_times'></span>
+### {n}
+
+直前の文字を、`n`で指定した回数ちょうど繰り返す。
+
+```ruby
+/pattern{n}/
+```
+
+<details>
+
+```ruby
+/h{2}/ === 'h'  # => false
+/h{2}/ === 'hh'  # => true
+
+/lo{2}l/ === 'll'  # => false
+/lo{2}l/ === 'lol' # => false
+/lo{2}l/ === 'lool'  # => true
+/lo{2}l/ === 'loool'  # => false
+/lo{2}l/ === 'logol'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='min'></span>
+### {min,}
+
+直前の文字を、`min`で指定した回数以上繰り返す。
+(`,`の後にスペースを入れない)
+
+```ruby
+/pattern{min,}/
+```
+
+<details>
+
+```ruby
+/lo{2,}l/ === 'll'  # => false
+/lo{2,}l/ === 'lol'  # => false
+/lo{2,}l/ === 'lool'  # => true
+/lo{2,}l/ === 'loool'  # => true
+/lo{2,}l/ === 'looool'  # => true
+/lo{2,}l/ === 'loogool'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='max'></span>
+### {,max}
+
+直前の文字を、`max`で指定した回数以下繰り返す。
+(`,`の前後にスペースを入れない)
+
+```ruby
+/pattern{,max}/
+```
+
+<details>
+
+```ruby
+/lo{,2}l/ === 'll'  # => true
+/lo{,2}l/ === 'lol'  # => true
+/lo{,2}l/ === 'lool'  # => true
+/lo{,2}l/ === 'loool'  # => false
+/lo{,2}l/ === 'looool'  # => false
+/lo{,2}l/ === 'logol'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='min_max'></span>
+### {min,max}
+
+直前の文字を、`min`回以上`max`回以下繰り返す。<br>
+(`,`の後にスペースを入れない)
+
+```ruby
+/pattern{min,max}/
+```
+
+<details>
+
+```ruby
+/lo{2,4}l/ === 'll'  # => false
+/lo{2,4}l/ === 'lol'  # => false
+/lo{2,4}l/ === 'lool'  # => true
+/lo{2,4}l/ === 'loool'  # => true
+/lo{2,4}l/ === 'looool'  # => true
+/lo{2,4}l/ === 'loooool'  # => false
+/lo{2,4}l/ === 'loooogooool'  # => false
 ```
 
 </details>
