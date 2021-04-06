@@ -35,6 +35,13 @@
         - [**{min,}** (min回以上)](#min)
         - [**{,max}** (max回以下)](#max)
         - [**{min, max}** (min回以上、max回以下)](#min_max)
+    - [選択](#selection)
+        - [**|** (選択)](#selection_meta)
+    - [キャプチャ & グループ](#capture_and_group)
+        - [**()** (グループ)](#group)
+        - [**()** (キャプチャ)](#capture)
+        - [**(?\<name>)** (名前つきキャプチャ)](#name_capture)
+        - [**(?:)** (キャプチャなしグループ化)](#non_capture)
 
 ## Regexpクラス
 
@@ -824,7 +831,34 @@ check('hoge')  # => false
 | [{n}](#n_times) | n回 |
 | [{min,}](#min) | min回以上 |
 | [{,max}](#max) | max回以下 |
-| [{min, max}](#min_max) | min回以上、max回以下 |
+| [{min,max}](#min_max) | min回以上、max回以下 |
+
+<br>
+
+デフォルトは最大良指定子。<br>
+量指定のメタ文字の後に`?`をつけると、**最小量指定子**になる。
+
+`*?`, `+?`, `??`, `{n}?`, `{min,}?`, `{,max}?`, `{min,max}?`
+
+<details>
+
+```ruby
+/ho*/.match('hoooo')  # => #<MatchData "hoooo">
+/ho*?/.match('hoooo')  # => #<MatchData "h">
+
+/ho+/.match('hoooo')  # => #<MatchData "hoooo">
+/ho+?/.match('hoooo')  # => #<MatchData "ho">
+
+/ho?/.match('hoooo')  # => #<MatchData "ho">
+/ho??/.match('hoooo')  # => #<MatchData "h">
+
+/^(.*)(\d+)z/.match('abcd1234z')
+# => #<MatchData "abcd1234z" 1:"abcd123" 2:"4">
+/^(.*?)(\d+)z/.match('abcd1234z')
+# => #<MatchData "abcd1234z" 1:"abcd" 2:"1234">
+```
+
+</details>
 
 <br>
 
@@ -1008,6 +1042,164 @@ check('hoge')  # => false
 /lo{2,4}l/ === 'looool'  # => true
 /lo{2,4}l/ === 'loooool'  # => false
 /lo{2,4}l/ === 'loooogooool'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='selection'></span>
+## 選択
+
+<span id='selection_meta'></span>
+### |
+
+`|`で区切られたいずれか。
+
+```ruby
+/patternA|patternB|patternC/
+```
+
+<details>
+
+```ruby
+'hoge'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
+'fuga'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
+'piyo'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
+'foo'.match(/hoge|fuga|piyo/)  # => nil
+```
+
+</details>
+
+<br>
+
+<span id='capture_and_group'></span>
+## キャプチャ & グループ
+
+| 記号 | 意味 |
+|:----:|:----:|
+| [()](#group) | グループ化 |
+| [()](#capture) | キャプチャ |
+| [(?\<name>)](#name_capture) | 名前キャプチャ |
+| [(?:)](#non_capture) | キャプチャなしグループ化 |
+
+<br>
+
+<span id='group'></span>
+### ()
+
+グループ化。繰り返しなどで使用。
+
+```ruby
+/pa(tte)rn/
+```
+
+<details>
+
+```ruby
+/l(ho)*l/ === 'll'  # => true
+/l(ho)*l/ === 'lhol'  # => true
+/l(ho)*l/ === 'lhohol'  # => true
+/l(ho)*l/ === 'lhohohol'  # => true
+/l(ho)*l/ === 'lhl'  # => false
+/l(ho)*l/ === 'lhohl'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='capture'></span>
+### ()
+
+マッチした`()`内の部分取得が可能。<br>
+呼び出しは`var[n]`。
+
+
+
+```ruby
+/a(..)b/
+```
+<br>
+
+キャプチャで`()`で取得した値は、正規表現内で参照可能。<br>
+参照メタ文字は、以下のどれでも可。
+
+- `\1, \2, ・・・`
+- `\k<1>, \k<2>, ・・・`
+- `\k'1', \k'2', ・・・`
+
+```ruby
+/a(..)b\1c/
+```
+
+<details>
+
+```ruby
+var = /2(....)3(\w)4(\w*)5/.match('12hoge3A4fuga56')
+# => #<MatchData "2hoge3A4fuga5" 1:"hoge" 2:"A" 3:"fuga">
+
+var[0]  # => "2hoge3A4fuga5"
+var[1]  # => "hoge"
+var[2]  # => "A"
+var[3]  # => "fuga"
+```
+
+```ruby
+/a(..)b\1c/.match('aABbABc')
+# => #<MatchData "aABbABc" 1:"AB">
+
+/a(..)b\1c/.match('aABbCDc')
+# => nil
+```
+
+</details>
+
+<br>
+
+<span id='name_capture'></span>
+### (?<name>)
+
+名前つきキャプチャ。
+
+```ruby
+/abc(?<name>pattern)def/
+```
+
+参照は、`\k<name>`・`\k'name'`。<br>
+呼び出しは、`variable[:name]`。
+
+<details>
+
+```ruby
+var = /2(?<hoge>....)3/.match('12fuga34')
+# => #<MatchData "2fuga3" hoge:"fuga">
+
+var[0]  # => "2fuga3
+var[:name]  # => "fuga"
+```
+
+</details>
+
+<br>
+
+<span id='non_capture'></span>
+### (?:)
+
+キャプチャなしのグループ化。
+
+```ruby
+/ab(?:pattern)cd/
+```
+
+<details>
+
+```ruby
+/l(?:hoge)l/.match('lhogel')
+# => #<MatchData "lhogel" 1:"hoge">
+
+/l(hoge)l/.match('lhogel')
+# => #<MatchData "lhogel"
 ```
 
 </details>
