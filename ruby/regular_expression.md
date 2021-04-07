@@ -2,46 +2,52 @@
 [リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/doc/spec=2fregexp.html)
 
 - [オプション](#option)
-    - [部分正規表現](#part)
-    - [**i** (大文字小文字無視)](#ignorecase)
-    - [**m** (`.`の改行マッチ)](#multiline)
-    - [**x** (空白・コメント無視)](#extended)
-    - [**o** (式展開初回のみ)](#o_option)
+    - [**(?on) (?-off)** 《部分正規表現》](#part)
+    - [**i** 《大文字小文字無視》](#ignorecase)
+    - [**m** 《`.`の改行マッチ》](#multiline)
+    - [**x** 《空白・コメント無視》](#extended)
+    - [**o** 《式展開初回のみ》](#o_option)
 - [メタ文字](#meta_character)
     - [文字](#character)
-        - [**.** (任意の1文字)](#dot)
-        - [**[]** (いずれか1文字)](#square_brackets)
-            - [**[^]** (以外の一文字)](#denial_square_brackets)
-            - [**[-]** (連続する範囲)](#range_square_brackets)
-        - [**\w** (英数アンダーバー)](#alphanumeric)
-        - [**\W** (英数アンダーバー以外)](#non_alphanumeric)
-        - [**\d** (数字)](#number)
-        - [**\D** (数字以外)](#non_number)
-        - [**\s** (空白文字)](#blank_character)
-        - [**\S** (空白文字以外)](#non_blank_characther)
+        - [**.** 《任意の1文字》](#dot)
+        - [**[　]** 《いずれか1文字》](#square_brackets)
+            - [**[^　]** 《以外の一文字》](#denial_square_brackets)
+            - [**[　-　]** 《連続する範囲》](#range_square_brackets)
+        - [**\w** 《英数アンダーバー》](#alphanumeric)
+        - [**\W** 《英数アンダーバー以外》](#non_alphanumeric)
+        - [**\d** 《数字》](#number)
+        - [**\D** 《数字以外》](#non_number)
+        - [**\s** 《空白文字》](#blank_character)
+        - [**\S** 《空白文字以外》](#non_blank_characther)
     - [アンカー](#anchor)
-        - [**^** (行頭)](#caret)
-        - [**$** (行末)](#dollar)
-        - [**\A** (文字列の先頭)](#string_first)
-        - [**\Z** (文字列の末尾)](#string_last)
-        - [**\z** (文字列の末尾 改行含む)](#string_last_linefeed)
-        - [**\b** (単語の境界)](#boundary)
-        - [**\B** (単語の境界以外)](#non_boundary)
+        - [**^** 《行頭》](#caret)
+        - [**$** 《行末》](#dollar)
+        - [**\A** 《文字列の先頭》](#string_first)
+        - [**\Z** 《文字列の末尾》](#string_last)
+        - [**\z** 《文字列の末尾 改行含む》](#string_last_linefeed)
+        - [**\b** 《単語の境界》](#boundary)
+        - [**\B** 《単語の境界以外》](#non_boundary)
+    - [先読み・後読み](#look)
+        - [**(?=　)** 《肯定先読み》](#positive_lookahead)
+        - [**(?!　)** 《否定先読み》](#negative_lookahead)
+        - [**(?<=　)** 《肯定後読み》](#positive_lookbehind)
+        - [**(?<!　)**  《否定後読み》](#negative_lookbehind)
     - [繰り返し](#repeat)
-        - [**\*** (0回以上)](#zero_times)
-        - [**+** (1回以上)](#one_times)
-        - [**?** (0 or 1回)](#zero_or_one)
-        - [**{n}** (n回)](#n_times)
-        - [**{min,}** (min回以上)](#min)
-        - [**{,max}** (max回以下)](#max)
-        - [**{min, max}** (min回以上、max回以下)](#min_max)
-    - [選択](#selection)
-        - [**|** (選択)](#selection_meta)
+        - [**\*** 《0回以上》](#zero_times)
+        - [**+** 《1回以上》](#one_times)
+        - [**?** 《0 or 1回》](#zero_or_one)
+        - [**{n}** 《n回》](#n_times)
+        - [**{min,}** 《min回以上》](#min)
+        - [**{,max}** 《max回以下》](#max)
+        - [**{min, max}** 《min回以上、max回以下》](#min_max)
     - [キャプチャ & グループ](#capture_and_group)
-        - [**()** (グループ)](#group)
-        - [**()** (キャプチャ)](#capture)
-        - [**(?\<name>)** (名前つきキャプチャ)](#name_capture)
-        - [**(?:)** (キャプチャなしグループ化)](#non_capture)
+        - [**(　)** 《グループ》](#group)
+        - [**(　)** 《キャプチャ》](#capture)
+        - [**(?\<name>　)** 《名前つきキャプチャ》](#name_capture)
+        - [**(?:　)** 《キャプチャなしグループ化》](#non_capture)
+    - [選択・条件分岐](#selection_and_condition)
+        - [**|** 《選択》](#selection_meta)
+        - [**(?(条件)　)** 《条件分岐》](#condition)
 
 ## Regexpクラス
 
@@ -142,9 +148,9 @@ Regexp.new('pattern', Regexp::IGNORECASE | Regexp::MULTILINE)
 
 </details>
 
-#### (?:(?on)pattern)
+#### (?:(?on)　)
 
-`(?:)`でグループ化。括弧内のみ反映される。
+`(?:　)`でグループ化。括弧内のみ反映される。
 
 ```ruby
 /ab(?:(?i)cd)ef/
@@ -336,7 +342,7 @@ check('hoge')  # => false
 | 記号 | 意味 |
 |:----:|:----:|
 | [.](#dot) | 任意の一文字 |
-| [[ ]](#square_brackets) |いずれか一文字 |
+| [[　]](#square_brackets) |いずれか一文字 |
 | [\w](#alphanumeric) | 英数アンダーバー [a-zA-Z0-9] |
 | [\W](#non_alphanumeric) | 英数アンダーバー以外 [^a-zA-Z0-9] |
 | [\d](#number) | 数字 [0-9] |
@@ -372,9 +378,9 @@ check('hoge')  # => false
 <br>
 
 <span id='square_brackets'></span>
-### []
+### [　]
 
-`[]`内のいずれか一文字。
+`[　]`内のいずれか一文字。
 
 ```ruby
 /a[bcd]e/
@@ -397,9 +403,9 @@ check('hoge')  # => false
 <br>
 
 <span id='denial_square_brackets'></span>
-#### [^]
+#### [^　]
 
-`[]`内のいずれか以外の一文字。
+`[　]`内のいずれか以外の一文字。
 
 ```ruby
 /a[^bcd]e/
@@ -419,7 +425,7 @@ check('hoge')  # => false
 <br>
 
 <span id='range_square_brackets'></span>
-#### [-]
+#### [　-　]
 
 連続した文字や数字は、`-`で省略可。
 
@@ -820,6 +826,103 @@ check('hoge')  # => false
 
 <br>
 
+<span id='look'></span>
+## 先読み・後読み
+
+マッチ条件になるが、結果には含めない。
+
+| 記号 | 意味 |
+|:----:|:----:|
+| [(?=　)](#positive_lookahead) | 肯定先読み |
+| [(?!　)](#negative_lookahead) | 否定先読み |
+| [(?<=　)](#positive_lookbehind) | 肯定後読み |
+| [(?<!　)](#negative_lookbehaind) | 否定後読み |
+
+<br>
+
+<span id='positive_lookahead'></span>
+### (?=　)
+
+直後にパターンがある。
+
+```ruby
+/pattern(?=pattern)/
+```
+
+<details>
+
+```ruby
+'hoge'.match(/hoge(?=1234)/)  # => nil
+'hoge1234'.match(/hoge(?=1234)/)  # => #<MatchData "hoge">
+'1234hoge'.match(/hoge(?=1234)/)  # => nil
+```
+
+</details>
+
+<br>
+
+<span id='negative_lookahead'></span>
+### (?!　)
+
+直後にパターンがない。
+
+
+```ruby
+/pattern(?!pattern)/
+```
+
+<details>
+
+```ruby
+'hoge'.match(/hoge(?!1234)/)  # => #<MatchData "hoge">
+'hoge1234'.match(/hoge(?!1234)/)  # => nil
+'1234hoge'.match(/hoge(?!1234)/)  # => #<MatchData "hoge">
+```
+
+</details>
+
+<br>
+
+<span id='positive_lookbehind'></span>
+### (?<=　)
+
+直前にパターンがある。
+
+```ruby
+/(?<=pattern)pattern/
+```
+
+<details>
+
+```ruby
+'hoge'.match(/(?<=1234)hoge/)  # => nil
+'hoge1234'.match(/(?<=1234)hoge/)  # => nil
+'1234hoge'.match(/(?<=1234)hoge/)  # => #<MatchData "hoge">
+```
+
+</details>
+
+<br>
+
+<span id='negative_lookbehaind'></span>
+### (?<!　)
+
+直前にパターンがない。
+
+```ruby
+/(?<!pattern)pattern/
+```
+
+<details>
+
+```ruby
+'hoge'.match(/(?<!1234)hoge/)  # => #<MatchData "hoge">
+'hoge1234'.match(/(?<!1234)hoge/)  # => #<MatchData "hoge">
+'1234hoge'.match(/(?<!1234)hoge/)  # nil
+```
+
+</details>
+
 <span id='repeat'></span>
 ## 繰り返し
 
@@ -1048,45 +1151,20 @@ check('hoge')  # => false
 
 <br>
 
-<span id='selection'></span>
-## 選択
-
-<span id='selection_meta'></span>
-### |
-
-`|`で区切られたいずれか。
-
-```ruby
-/patternA|patternB|patternC/
-```
-
-<details>
-
-```ruby
-'hoge'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
-'fuga'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
-'piyo'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
-'foo'.match(/hoge|fuga|piyo/)  # => nil
-```
-
-</details>
-
-<br>
-
 <span id='capture_and_group'></span>
 ## キャプチャ & グループ
 
 | 記号 | 意味 |
 |:----:|:----:|
-| [()](#group) | グループ化 |
-| [()](#capture) | キャプチャ |
-| [(?\<name>)](#name_capture) | 名前キャプチャ |
-| [(?:)](#non_capture) | キャプチャなしグループ化 |
+| [(　)](#group) | グループ化 |
+| [(　)](#capture) | キャプチャ |
+| [(?\<name>　)](#name_capture) | 名前キャプチャ |
+| [(?:　)](#non_capture) | キャプチャなしグループ化 |
 
 <br>
 
 <span id='group'></span>
-### ()
+### (　)
 
 グループ化。繰り返しなどで使用。
 
@@ -1110,7 +1188,7 @@ check('hoge')  # => false
 <br>
 
 <span id='capture'></span>
-### ()
+### (　)
 
 マッチした`()`内の部分取得が可能。<br>
 呼び出しは`var[n]`。
@@ -1158,7 +1236,7 @@ var[3]  # => "fuga"
 <br>
 
 <span id='name_capture'></span>
-### (?<name>)
+### (?\<name>　)
 
 名前つきキャプチャ。
 
@@ -1184,7 +1262,7 @@ var[:name]  # => "fuga"
 <br>
 
 <span id='non_capture'></span>
-### (?:)
+### (?:　)
 
 キャプチャなしのグループ化。
 
@@ -1200,6 +1278,59 @@ var[:name]  # => "fuga"
 
 /l(hoge)l/.match('lhogel')
 # => #<MatchData "lhogel"
+```
+
+</details>
+
+<br>
+
+<span id='selection_and_condition'></span>
+## 選択・条件分岐
+
+<span id='selection_meta'></span>
+### |
+
+`|`で区切られたいずれか。
+
+```ruby
+/patternA|patternB|patternC/
+```
+
+<details>
+
+```ruby
+'hoge'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
+'fuga'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
+'piyo'.match(/hoge|fuga|piyo/)  # => #<MatchData "hoge">
+'foo'.match(/hoge|fuga|piyo/)  # => nil
+```
+
+</details>
+
+<br>
+
+<span id='condition'></span>
+### (?(条件)　)
+
+条件分岐。条件が真であるとき、パターンが使用される。<br>
+パターンに`|`を入れると、分岐が可能。`(?(条件)真|偽)`
+
+条件はキャプチャを使用。`(条件)`に、キャプチャ番号や名前を入れ、マッチしていたら真。
+
+```ruby
+/(?(condition)pattern)/
+
+/(?(condition)true_pattern|false_pattern)/
+```
+
+<details>
+
+```ruby
+/(?:(alphabet)|(number))\:\s(?(1)([a-z]+)|(\d+))/.match('alphabet: abcd')
+# => #<MatchData "alphabet: abcd" 1:"alphabet" 2:nil 3:"abcd" 4:nil>
+
+/(?:(alphabet)|(number))\:\s(?(1)([a-z]+)|(\d+))/.match('number: 1234')
+# => #<MatchData "number: 1234" 1:nil 2:"number" 3:nil 4:"1234">
 ```
 
 </details>
