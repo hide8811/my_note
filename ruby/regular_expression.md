@@ -30,8 +30,8 @@
     - [先読み・後読み](#look)
         - [**(?=　)** 《肯定先読み》](#positive_lookahead)
         - [**(?!　)** 《否定先読み》](#negative_lookahead)
-        - [**(?<=　)** 《肯定後読み》](#positive_lookbehind)
-        - [**(?<!　)**  《否定後読み》](#negative_lookbehind)
+        - [**(?\<=　)** 《肯定後読み》](#positive_lookbehind)
+        - [**(?\<!　)**  《否定後読み》](#negative_lookbehind)
     - [繰り返し](#repeat)
         - [**\*** 《0回以上》](#zero_times)
         - [**+** 《1回以上》](#one_times)
@@ -48,6 +48,13 @@
     - [選択・条件分岐](#selection_and_condition)
         - [**|** 《選択》](#selection_meta)
         - [**(?(条件)　)** 《条件分岐》](#condition)
+    - [特殊変数](#special_variable)
+        - [**$~** 《MatchDataオブジェクト》](#dollar_tilde)
+        - [**$&** 《マッチしたテキスト》](#dollar_and)
+        - [**$\`** 《マッチしたテキストの手前》](#dollar_back_quote)
+        - [**$\'** 《マッチしたテキストの後ろ》](#dollar_single_quote)
+        - [**$1** 《キャプチャ文字列》](#dollar_number)
+        - [**$+** 《最後のキャプチャ文字列》](#dollar_plus)
 
 ## Regexpクラス
 
@@ -1334,3 +1341,21 @@ var[:name]  # => "fuga"
 ```
 
 </details>
+
+<br>
+
+<span id='special_variable'></span>
+## 特殊変数
+
+| 記号 | 意味 |
+|:----:|:----:|
+| [$~](#dollar_tilde) | MatchDataオブジェクト |
+| [$&](#dollar_and) | マッチテキスト |
+| [$\`](#dollar_back_quote) | マッチテキストの前 |
+| [$\'](#dollar_single_quote) | マッチテキストの後ろ |
+| [$1](#dollar_number) | キャプチャ |
+| [$+](#dollar_puls) | 最後のキャプチャ |
+
+<br>
+
+
