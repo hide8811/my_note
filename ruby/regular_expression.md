@@ -1358,4 +1358,112 @@ var[:name]  # => "fuga"
 
 <br>
 
+<span id='dollar_tilde'></span>
+### $~
 
+最後に成功したマッチのMatchDataオブジェクト。<br>
+(`Regexp.last_match`と同じ)
+
+<details>
+
+```ruby
+'hoge'.match(/hoge/)
+
+$~  # => #<MatchData "hoge">
+
+Regexp.last_match  # => #<MatchData "hoge">
+
+'fuga'.match(/fuga/)
+
+$~  # => #<MatchData "fuga">
+```
+
+</details>
+
+<br>
+
+<span id='dollar_and'></span>
+### $&
+
+マッチした文字列。
+
+<details>
+
+```ruby
+'hoge1234'.match(/hoge/)
+
+$&  # => "hoge"
+```
+
+</details>
+
+<br>
+
+<span id='dollar_back_quote'></span>
+### $`
+
+マッチした部分より前の文字列。
+
+<details>
+
+```ruby
+'hogefugapiyo'.match(/fuga/)
+
+$`  # => "hoge"
+```
+
+</details>
+
+<br>
+
+<span id='dollar_single_quote'></span>
+### $'
+
+マッチした部分より後の文字列。
+
+<details>
+
+```ruby
+'hogefugapiyo'.match(/fuga/)
+
+$'  # => "piyo"
+```
+
+</details>
+
+<br>
+
+<span id='dollar_number'></span>
+### $1
+
+マッチしたキャプチャの文字列。<br>
+`$1`, `$2`, `$3`・・・と対応する数字を入れる。
+
+<details>
+
+```ruby
+'hogefuga1234'.match(/(hoge)(fuga)(\d*)/)
+
+$1  # => "hoge"
+$2  # => "fuga"
+$3  # => "1234"
+```
+
+</details>
+
+<br>
+
+<span id='dollar_puls'></span>
+### $+
+
+マッチした最後のキャプチャの文字列。
+
+<details>
+
+```ruby
+'hogefuga1234'.match(/(hoge)(fuga)(\d*)/)
+
+$+  $ => "1234"
+```
+
+</details>
