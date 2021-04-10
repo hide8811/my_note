@@ -45,6 +45,7 @@
         - [**(　)** 《キャプチャ》](#capture)
         - [**(?\<name>　)** 《名前つきキャプチャ》](#name_capture)
         - [**(?:　)** 《キャプチャなしグループ化》](#non_capture)
+        - [**(?>　)** 《アトミックグループ》](#atomic_grouping)
     - [選択・条件分岐](#selection_and_condition)
         - [**|** 《選択》](#selection_meta)
         - [**(?(条件)　)** 《条件分岐》](#condition)
@@ -1167,6 +1168,7 @@ check('hoge')  # => false
 | [(　)](#capture) | キャプチャ |
 | [(?\<name>　)](#name_capture) | 名前キャプチャ |
 | [(?:　)](#non_capture) | キャプチャなしグループ化 |
+| [(?>　)](#atomic_grouping) | アトミックグループ |
 
 <br>
 
@@ -1290,6 +1292,38 @@ var[:name]  # => "fuga"
 </details>
 
 <br>
+
+<span id='atomic_grouping'></span>
+### (?>　)
+
+アトミック(不可分)なグループを作る。<br>
+キャプチャはつかない。
+
+```ruby
+/(?>pattern)/
+```
+
+**不可分**： 密接に結びついていて、分けたり切り離したりできないこと。
+
+<details>
+
+```ruby
+'abcde'.match(/(\w*)e/)  # => #<MatchData "abcde" 1: "abcd">
+
+'abcde'.match(/(?>\w*)e/)  # => nil
+```
+
+- アトミックなし
+    1. `\w*`で、アルファベット`abcde`全てにマッチ。
+    2. `1.`で全てのアルファベットをマッチしてしまったため、`e`のマッチは失敗。
+    3. [バックトラック] マッチした`abcde`の`e`を手放し、リトライ。
+    4. 最後の`e`がマッチし、`<MatchData "abcde" 1: "abcd">`となる。
+- アトミックあり
+    1. `\w*`で、アルファベット`abcde`全てにマッチ。
+    2. `1.`で全てのアルファベットをマッチしてしまったため、`e`のマッチは失敗。
+    3. アトミックグループのため、バックトラックが起こらず、`nil`となる。
+
+</details>
 
 <span id='selection_and_condition'></span>
 ## 選択・条件分岐
