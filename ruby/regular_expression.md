@@ -40,6 +40,8 @@
         - [**{min,}** 《min回以上》](#min)
         - [**{,max}** 《max回以下》](#max)
         - [**{min, max}** 《min回以上、max回以下》](#min_max)
+        - [**\*?** 《最小量指定子》](#reluctant_quantifier)
+        - [**\*+** 《絶対最大量指定子》](#possessive_quantifier)
     - [キャプチャ & グループ](#capture_and_group)
         - [**(　)** 《グループ》](#group)
         - [**(　)** 《キャプチャ》](#capture)
@@ -943,33 +945,8 @@ check('hoge')  # => false
 | [{min,}](#min) | min回以上 |
 | [{,max}](#max) | max回以下 |
 | [{min,max}](#min_max) | min回以上、max回以下 |
-
-<br>
-
-デフォルトは最大良指定子。<br>
-量指定のメタ文字の後に`?`をつけると、**最小量指定子**になる。
-
-`*?`, `+?`, `??`, `{n}?`, `{min,}?`, `{,max}?`, `{min,max}?`
-
-<details>
-
-```ruby
-/ho*/.match('hoooo')  # => #<MatchData "hoooo">
-/ho*?/.match('hoooo')  # => #<MatchData "h">
-
-/ho+/.match('hoooo')  # => #<MatchData "hoooo">
-/ho+?/.match('hoooo')  # => #<MatchData "ho">
-
-/ho?/.match('hoooo')  # => #<MatchData "ho">
-/ho??/.match('hoooo')  # => #<MatchData "h">
-
-/^(.*)(\d+)z/.match('abcd1234z')
-# => #<MatchData "abcd1234z" 1:"abcd123" 2:"4">
-/^(.*?)(\d+)z/.match('abcd1234z')
-# => #<MatchData "abcd1234z" 1:"abcd" 2:"1234">
-```
-
-</details>
+| [*?](#reluctant_quantifier) | 最小量指定子 |
+| [*+](#possessive_quantifier) | 絶対最大量指定子 |
 
 <br>
 
@@ -1153,6 +1130,56 @@ check('hoge')  # => false
 /lo{2,4}l/ === 'looool'  # => true
 /lo{2,4}l/ === 'loooool'  # => false
 /lo{2,4}l/ === 'loooogooool'  # => false
+```
+
+</details>
+
+<br>
+
+<span id='reluctant_quantifier'></span>
+### *?
+
+量指定のメタ文字の後に`?`をつけると、**最小量指定子**になる。<br>
+(デフォルトは最大良指定子)
+
+`*?`, `+?`, `??`, `{n}?`, `{min,}?`, `{,max}?`, `{min,max}?`
+
+<details>
+
+```ruby
+/ho*/.match('hoooo')  # => #<MatchData "hoooo">
+/ho*?/.match('hoooo')  # => #<MatchData "h">
+
+/ho+/.match('hoooo')  # => #<MatchData "hoooo">
+/ho+?/.match('hoooo')  # => #<MatchData "ho">
+
+/ho?/.match('hoooo')  # => #<MatchData "ho">
+/ho??/.match('hoooo')  # => #<MatchData "h">
+
+/^(.*)(\d+)z/.match('abcd1234z')
+# => #<MatchData "abcd1234z" 1:"abcd123" 2:"4">
+/^(.*?)(\d+)z/.match('abcd1234z')
+# => #<MatchData "abcd1234z" 1:"abcd" 2:"1234">
+```
+
+</details>
+
+<br>
+
+<span id='possessive_quantifier'></span>
+### *+
+
+量指定のメタ文字の後に`+`をつけると、**絶対最大量指定子**になる。
+
+`*+`, `++`, `?+`
+
+[アトミックグループ`(?>　)`](#atomic_grouping)と同じ。
+
+<details>
+
+```ruby
+/(.*)1/.match('hoge1')  # => #<MatchData "hoge1" 1: "hoge">
+/(.*+)1/.match('hoge1')  # => nil
 ```
 
 </details>
