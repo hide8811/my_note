@@ -48,6 +48,8 @@
         - [**(?\<name>　)** 《名前つきキャプチャ》](#name_capture)
         - [**(?:　)** 《キャプチャなしグループ化》](#non_capture)
         - [**(?>　)** 《アトミックグループ》](#atomic_grouping)
+    - [部分式呼び出し](#subexpression_call)
+        - [**\g\<name>** 《\<name>の呼び出し》](#g_name_call)
     - [選択・条件分岐](#selection_and_condition)
         - [**|** 《選択》](#selection_meta)
         - [**(?(条件)　)** 《条件分岐》](#condition)
@@ -1351,6 +1353,37 @@ var[:name]  # => "fuga"
     3. アトミックグループのため、バックトラックが起こらず、`nil`となる。
 
 </details>
+
+<br>
+
+<span id='subexpression_call'></span>
+## 部分式呼び出し
+
+<span id='g_name_call'></span>
+### \g\<name>
+
+名前つきキャプチャ`(?<name>　)`で指定した正規表現を呼び出す。<br>
+
+```ruby
+/(?<name>pattern)\g<name>/
+```
+
+`\k<name>`との違いは、文字列を呼び出すか、正規表現を呼び出すか。
+
+<details>
+
+`\k<name>` => マッチした**文字列**を呼び出す。<br>
+`\g<name>` => **正規表現**を呼び出す。
+
+```ruby
+/(?<hoge>.{4})\g<hoge>/.match('fugaPiyo')  # => #<MatchData "fugaPiyo" hoge: "Piyo">
+
+/(?<hoge>.{4})\k<hoge>/.match('fugaPiyo')  # => nil
+```
+
+</details>
+
+<br>
 
 <span id='selection_and_condition'></span>
 ## 選択・条件分岐
