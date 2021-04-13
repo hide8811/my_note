@@ -50,6 +50,7 @@
         - [**(?>　)** 《アトミックグループ》](#atomic_grouping)
     - [部分式呼び出し](#subexpression_call)
         - [**\g\<name>** 《\<name>の呼び出し》](#g_name_call)
+        - [**\g\<1>** 《キャプチャの番号で呼び出し》](#g_num_call)
     - [選択・条件分岐](#selection_and_condition)
         - [**|** 《選択》](#selection_meta)
         - [**(?(条件)　)** 《条件分岐》](#condition)
@@ -1359,26 +1360,50 @@ var[:name]  # => "fuga"
 <span id='subexpression_call'></span>
 ## 部分式呼び出し
 
+`\k`との違いは、文字列を呼び出すか、正規表現を呼び出すか。
+
+`\k<name>` => マッチした**文字列**を呼び出す。<br>
+`\g<name>` => **正規表現**を呼び出す。
+
+<br>
+
 <span id='g_name_call'></span>
 ### \g\<name>
 
 名前つきキャプチャ`(?<name>　)`で指定した正規表現を呼び出す。<br>
+呼び出しは、`\g<name>`または`\g'name'`。
 
 ```ruby
 /(?<name>pattern)\g<name>/
 ```
 
-`\k<name>`との違いは、文字列を呼び出すか、正規表現を呼び出すか。
-
 <details>
-
-`\k<name>` => マッチした**文字列**を呼び出す。<br>
-`\g<name>` => **正規表現**を呼び出す。
 
 ```ruby
 /(?<hoge>.{4})\g<hoge>/.match('fugaPiyo')  # => #<MatchData "fugaPiyo" hoge: "Piyo">
 
 /(?<hoge>.{4})\k<hoge>/.match('fugaPiyo')  # => nil
+```
+
+</details>
+
+<br>
+
+<span id='g_num_call'></span>
+### \g<num>
+
+`(　)`で指定したキャプチャを番号で呼び出す。
+
+```ruby
+/(pattern)\g<1>/
+```
+
+<details>
+
+```ruby
+/(.{4})Fuga\g<1>/.match('HogeFugaPiyo')  # => #<MatchData "HogeFugaPiyo" 1: "Piyo">
+
+/(.{4})Fuga\k<1>/.match('HogeFugaPiyo')  # => nil
 ```
 
 </details>
