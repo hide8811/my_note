@@ -50,7 +50,8 @@
         - [**(?>　)** 《アトミックグループ》](#atomic_grouping)
     - [部分式呼び出し](#subexpression_call)
         - [**\g\<name>** 《\<name>の呼び出し》](#g_name_call)
-        - [**\g\<1>** 《キャプチャの番号で呼び出し》](#g_num_call)
+        - [**\g\<n>** 《キャプチャの番号で呼び出し》](#g_num_call)
+        - [**\g<±n>** 《相対番号での呼び出し》](#g_relative_num_call)
     - [選択・条件分岐](#selection_and_condition)
         - [**|** 《選択》](#selection_meta)
         - [**(?(条件)　)** 《条件分岐》](#condition)
@@ -1390,7 +1391,7 @@ var[:name]  # => "fuga"
 <br>
 
 <span id='g_num_call'></span>
-### \g<num>
+### \g<n>
 
 `(　)`で指定したキャプチャを番号で呼び出す。
 
@@ -1404,6 +1405,30 @@ var[:name]  # => "fuga"
 /(.{4})Fuga\g<1>/.match('HogeFugaPiyo')  # => #<MatchData "HogeFugaPiyo" 1: "Piyo">
 
 /(.{4})Fuga\k<1>/.match('HogeFugaPiyo')  # => nil
+```
+
+</details>
+
+<br>
+
+<span id='g_relative_num_call'></span>
+### \g<±n>
+
+現在位置から相対的に指定。
+
+`\g<-n>` => 自分より**前方**の相対番号。自身がキャプチャの場合、自身も含み、結果を上書き。(`\g'-n'`でも可)<br>
+`\g<+n>` => 自分より**後方**の相対番号。自身がキャプチャの場合、自身は含まない。(`\g'+n'`でも可)
+
+```ruby
+/\g<+1>(pattern)\g<-1>/
+```
+
+<details>
+
+```ruby
+/(\d*)(....)(\g<-3>)/.match('123hoge45')  # => #<MatchData "123hoge45" 1:"45" 2:"hoge" 3:"45">
+
+/(\g<+2>)(....)(\d*)/.match('123hoge45')  # => #<MatchData "123hoge45" 1:"123" 2:"hoge" 3:"45">
 ```
 
 </details>
