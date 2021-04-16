@@ -45,3 +45,15 @@ var = 'hoge'
 var = 'hoge'
 %q(#{var})  # => "#{var}"
 ```
+
+## %r
+
+正規表現。
+
+```ruby
+%r(hoge)  # => /hoge/
+
+# 式展開 可
+var = 'hoge'
+%r(#{var})  # => /hoge/
+```
