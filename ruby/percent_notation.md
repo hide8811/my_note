@@ -46,6 +46,8 @@ var = 'hoge'
 %q(#{var})  # => "#{var}"
 ```
 
+<br>
+
 ## %r
 
 正規表現。
@@ -56,4 +58,34 @@ var = 'hoge'
 # 式展開 可
 var = 'hoge'
 %r(#{var})  # => /hoge/
+```
+
+<br>
+
+## %w
+
+文字列の配列。(半角スペース区切り)<br>
+式展開は不可。
+
+```ruby
+%w[hoge fuga piyo]  # => ["hoge", "fuga", "piyo"]
+
+# 式展開 不可
+var = 'hoge'
+%w[#{var} fuga piyo]  # => ["\#{var}", "fuga", "piyo"]
+```
+
+<br>
+
+## %W
+
+文字列の配列。(半角スペース区切り)<br>
+式展開は可。
+
+```ruby
+%W[hoge fuga piyo]  # => ["hoge", "fuga", "piyo"]
+
+# 式展開 可
+var = 'hoga'
+%W[#{var} fuga piyo]  # => ["hoge", "fuga", "piyo"]
 ```
