@@ -19,6 +19,10 @@
         - [**\D** 《数字以外》](#non_number)
         - [**\s** 《空白文字》](#blank_character)
         - [**\S** 《空白文字以外》](#non_blank_characther)
+    - [Unicode プロパティ](#unicode)
+        - [**\p{　}** 《指定》](#unicode_p)
+        - [**\p{^　}** 《否定》](#denial_unicode_p)
+        - [**\P{　}** 《否定》](#denial_unicode_P)
     - [アンカー](#anchor)
         - [**^** 《行頭》](#caret)
         - [**$** 《行末》](#dollar)
@@ -617,7 +621,7 @@ check('hoge')  # => false
 
 <br>
 
-<span id='not_blank_character'></span>
+<span id='non_blank_character'></span>
 ### \S
 
 空白文字以外。`[^ \t\r\n\f\v]`と同じ。
@@ -641,6 +645,85 @@ check('hoge')  # => false
 
 /1\s1/ === "1aa1"  # => false
 /1\s1/ === "1ab1"  # => false
+```
+
+</details>
+
+<br>
+
+<span id='unicode'></span>
+## Unicode プロパティ
+
+Unicodeのプロパティによる文字クラス指定。<br>
+[プロパティリスト](https://github.com/k-takata/Onigmo/blob/master/doc/UnicodeProps.txt)
+
+| 記号 | 意味 |
+|:----:|:----:|
+| [\p{　}](#unicode_p) | 指定 |
+| [\p{^　}](#denial_unicode_p) | 否定 |
+| [\P{　}](#denial_unicode_P) | 否定 |
+
+<br>
+
+<span id='unicode_p'></span>
+### \p{　}
+
+プロパティによる指定。
+
+```ruby
+/\p{property_name}/
+```
+
+<details>
+
+```ruby
+/\p{Hiragana}/ === 'あ'  # => true
+/\p{Hiragana}/ === 'ア'  # => false
+/\p{Hiragana}/ === '安'  # => false
+/\p{Hiragana}/ === 'a'  # => false
+```
+</details>
+
+<br>
+
+<span id='denial_unicode_p'></span>
+### \p{^　}
+
+プロパティによる指定以外。
+
+```ruby
+/\p{^property_name}/
+```
+
+<details>
+
+```ruby
+/\p{^Hiragana}/ === 'あ'  # => false
+/\p{^Hiragana}/ === 'ア'  # => true
+/\p{^Hiragana}/ === '安'  # => true
+/\p{^Hiragana}/ === 'a'  # => true
+```
+
+</details>
+
+<br>
+
+<span id='denial_unicode_P'></span>
+### \P{　}
+
+プロパティによる指定以外。
+
+```ruby
+/\P{property_name}/
+```
+
+<details>
+
+```ruby
+/\p{^Hiragana}/ === 'あ'  # => false
+/\p{^Hiragana}/ === 'ア'  # => true
+/\p{^Hiragana}/ === '安'  # => true
+/\p{^Hiragana}/ === 'a'  # => true
 ```
 
 </details>
