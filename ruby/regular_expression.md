@@ -66,6 +66,10 @@
         - [**$\'** 《マッチしたテキストの後ろ》](#dollar_single_quote)
         - [**$1** 《キャプチャ文字列》](#dollar_number)
         - [**$+** 《最後のキャプチャ文字列》](#dollar_plus)
+- [例](#sample)
+    - [ひらがな](#hiragana)
+    - [カタカナ](#katakana)
+    - [漢字](#kanji)
 
 ## Regexpクラス
 
@@ -1694,3 +1698,42 @@ $+  $ => "1234"
 ```
 
 </details>
+
+<br>
+
+<span id='sample'></span>
+## 例
+
+<span id='hiragana'></span>
+### ひらがな
+
+```ruby
+/[ぁ-ん]/u
+
+# Unicode
+/\p{Hiragana}/
+```
+
+<br>
+
+<span id='katakana'></span>
+### カタカナ
+
+```ruby
+/[ァ-ン]/u
+
+# Unicode
+/\p{Katakana}/
+```
+
+<br>
+
+<span id='kanji'></span>
+### 漢字
+
+```ruby
+/[一-龠]/u
+
+# Unicode
+/\p{Han}/
+```
