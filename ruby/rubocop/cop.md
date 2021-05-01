@@ -3,7 +3,7 @@
 ## Style
 
 ### FrozenStringLiteralComment:
-***Missing frozen string literal comment.***<br>
+***`Missing frozen string literal comment.`***<br>
 (凍結文字列リテラルコメントがありません。)
 
 **【 解決法 】**
@@ -24,9 +24,10 @@ Style/FrozenStringLiteralComent:
 <br>
 
 ### AsciiComments:
-`Use only ascii symbols in comments.`<br>
 ***`Use only ascii symbols in comments.`***<br>
 (コメントにはASCII記号のみを使用してください。)
+
+コメントに日本語が使えない。
 
 **【 解決法 】**
 
@@ -35,4 +36,27 @@ Style/FrozenStringLiteralComent:
 ```yml
 Style/AsciiComments:
   Enabled: false
+```
+
+<br>
+
+### IdenticalConditionalBranches
+***`Move _____ out of the conditional.`***
+
+同一の条件分岐。
+
+**【 解決法 】**
+
+if文で条件分岐した処理の共通部分は抜き出す。
+
+```ruby
+if truth
+  process_A
+  # process_C
+else
+  process_B
+  # process_C
+end
+
+process_C  # 共通部分
 ```
