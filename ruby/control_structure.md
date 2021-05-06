@@ -120,7 +120,7 @@ end
 
 一つの式に対し、`===`で確認して条件分岐。<br>
 `when`で比較項目、`else`でそれ以外。<br>
-`when`の式に`*`をつけると、
+`when`の式に`*`をつけると、配列が展開される。
 
 <details>
 
@@ -146,9 +146,9 @@ Integer === 1  # true
 
 ```ruby
 case 式0
-when 式1       # 式0 === 式1
+when 式1       # 式1 === 式0
   処理
-when 式2, 式3  # 式0 === 式2 or 式0 === 式3
+when 式2, 式3  # 式2 === 式0 or 式3 === 式0
   処理
 else           # それ以外
   処理
@@ -159,12 +159,46 @@ end
 ary = [1, 2, 3]
 
 case 式
-when ary    # [1, 2, 3] => 式 === [1, 2, 3]
+when ary    # [1, 2, 3] => [1, 2, 3] === 式
   処理
-when *ary   # 1, 2, 3 => 式 === 1 or 式 === 2 or 式 === 3
+when *ary   # 1, 2, 3 => 1 === 式 or 2 === 式 or 3 === 式
   処理
 end
 ```
 
-<details>
-</details>
+<br>
+
+<span id='repeat'></span>
+## 繰り返し
+
+<span id='while'></span>
+### while
+
+**真**(`false`, `nil`以外)の間、処理を繰り返す。
+
+```ruby
+while 式
+  処理
+  処理
+end
+
+# 1行
+処理 while 式
+```
+
+<br>
+
+<span id='until'></span>
+### until
+
+**偽**(`false`, `nil`)の間、処理を繰り返す。
+
+```ruby
+until 式
+  処理
+  処理
+end
+
+# 1行
+処理 until 式
+```
