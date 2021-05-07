@@ -4,6 +4,10 @@
     - [if](#if)
     - [unless](#unless)
     - [case](#case)
+- [繰り返し](#repeat)
+    - [while](#while)
+    - [until](#until)
+    - [for](#for)
 
 <br>
 
@@ -201,4 +205,68 @@ end
 
 # 1行
 処理 until 式
+```
+
+<br>
+
+<span id='for'></span>
+### for
+
+要素の数だけ繰り返し実行。<br>
+要素には**範囲**や**配列**を使用。<br>
+`each`との違いは変数のスコープ。
+
+<details>
+
+二重配列
+
+```ruby
+ary = [[1, 2], [3, 4], [5, 6]]
+
+for var in ary
+  p var
+end
+# => [1, 2]
+#    [3, 4]
+#    [5, 6]
+
+for var1, var2 in ary
+  p "#{var1} #{var2}"
+end
+
+# => "1 2"
+#    "3 4"
+#    "5 6"
+```
+
+<br>
+
+`each`との比較
+
+```ruby
+# each
+(1..5).each do |num|
+  var = num
+end
+
+var  # =>NameError (undefined local variable or method `var' for main:Object)
+```
+
+```ruby
+# for
+for num in 1..5
+  var = num
+end
+
+var  # => 5
+```
+
+</details>
+
+<br>
+
+```ruby
+for 変数 in 要素
+  処理
+end
 ```
