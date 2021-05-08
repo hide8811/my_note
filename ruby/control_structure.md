@@ -8,6 +8,9 @@
     - [while](#while)
     - [until](#until)
     - [for](#for)
+- [繰り返し制御](#repeat_control)
+    - [break](#break)
+    - [next](#next)
 
 <br>
 
@@ -270,3 +273,100 @@ for 変数 in 要素
   処理
 end
 ```
+
+<br>
+
+<span id='repeat_control'></span>
+## 繰り返し制御
+
+<br>
+
+<span id='break'></span>
+### break
+
+繰り返しを中断する。<br>
+引数の指定ができる。
+
+```ruby
+break
+
+break 引数
+```
+
+<details>
+
+```ruby
+for var in 1..5
+  break if var == 4
+  p var
+end
+
+# => 1
+#    2
+#    3
+```
+
+```ruby
+# 引数なし
+val = (1..5).each { |num| break if num == 3 }
+
+val  # => nil
+
+
+# 引数あり
+val = (1..5).each { |num| break num if num == 3 }
+
+val  # => 3
+```
+
+</details>
+
+<br>
+
+<span id='next'></span>
+### next
+
+以降の処理をしないで、次の要素に進む。<br>
+引数の指定ができる。
+
+```ruby
+next
+
+next 引数
+```
+
+<details>
+
+```ruby
+for var in 1..10
+  next if var.even?
+  p var
+end
+
+# => 1
+#    3
+#    5
+#    7
+#    9
+```
+
+```ruby
+# 引数なし
+val = (1..10).map do |num|
+  next if num.even?
+  num * 10
+end
+
+val  # => [10, nil, 30, nil, 50, nil, 70, nil, 90, nil]
+
+
+# 引数あり
+val = (1..10).map do |num|
+  next num if num.even?
+  num * 10
+end
+
+val  # => [10, 2, 30, 4, 50, 6, 70, 8, 90, 10]
+```
+
+</details>
