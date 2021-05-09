@@ -11,6 +11,9 @@
 - [繰り返し制御](#repeat_control)
     - [break](#break)
     - [next](#next)
+    - [redo](#redo)
+- [例外処理](#exception_handling)
+    - [raise](#raise)
 
 <br>
 
@@ -367,6 +370,37 @@ val = (1..10).map do |num|
 end
 
 val  # => [10, 2, 30, 4, 50, 6, 70, 8, 90, 10]
+```
+
+</details>
+
+<br>
+
+<span id='redo'></span>
+### redo
+
+以降の処理を中断し、初めからやり直す。(繰り返し要素はそのまま)
+
+```ruby
+redo
+```
+
+<details>
+
+```ruby
+count = 0
+
+for num in 1..5
+  count += 1
+  redo if count == 3
+  p "#{count}: #{num}"
+end
+
+# => "1: 1"
+#    "2: 2"
+#    "4: 3"
+#    "5: 4"
+#    "6: 5"
 ```
 
 </details>
