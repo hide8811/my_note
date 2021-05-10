@@ -13,6 +13,7 @@
     - [next](#next)
     - [redo](#redo)
 - [例外処理](#exception_handling)
+    - [begin / rescue](#begin)
     - [raise](#raise)
 
 <br>
@@ -401,6 +402,80 @@ end
 #    "4: 3"
 #    "5: 4"
 #    "6: 5"
+```
+
+</details>
+
+<br>
+
+<span id='exception_handling'></span>
+## 例外処理
+
+<br>
+
+<span id='begin'></span>
+### begin / rescue
+
+例外(エラーなど)が発生した場合、プログラムがそこで止まらないようにする。<br>
+`rescue => 変数`とすることで、変数にエラー内容を格納することができる。
+
+```ruby
+begin
+  例外が起こりうるコード
+rescue
+  例外が発生した場合の処理
+end
+```
+
+<details>
+
+```ruby
+begin
+  1 / 0
+rescue => e
+  puts e
+end
+
+# => divided by 0
+```
+
+<br>
+
+**【例外処理をしていない場合】**
+
+```ruby
+# test.rb
+1 / 0
+
+puts 'Hello'
+```
+
+```sh
+# 実行結果
+test.rb:1:in `/': divided by 0 (ZeroDivisionError)
+        from memo.rb:1:in `<main>'
+
+```
+
+<br>
+
+**【例外処理をしている場合】**
+
+```ruby
+# test.rb
+begin
+  1 / 0
+rescue
+  puts 'Hi'
+end
+
+puts 'Hello'
+```
+
+```sh
+# 実行結果
+Hi
+Hello
 ```
 
 </details>
