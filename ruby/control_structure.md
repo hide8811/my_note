@@ -411,6 +411,9 @@ end
 <span id='exception_handling'></span>
 ## 例外処理
 
+[class Exception](https://docs.ruby-lang.org/ja/latest/class/Exception.html)<br>
+[例外一覧(組み込みライブラリ)](https://docs.ruby-lang.org/ja/latest/library/_builtin.html)
+
 <br>
 
 <span id='begin'></span>
@@ -478,4 +481,28 @@ Hi
 Hello
 ```
 
+<br>
+
+**`=>`**
+
+```ruby
+begin
+  1 / 0
+rescue => e
+  puts e
+end
+
+e.class             # => ZeroDivisionError
+e.class.superclass  # => StandardError
+e.message           # => divided by 0
+```
+
+| メソッド | 意味 |
+|:--------:|:-----|
+| [class](https://docs.ruby-lang.org/ja/latest/method/Object/i/class.html) | レシーバーのクラスを返す |
+| [superclass](https://docs.ruby-lang.org/ja/latest/method/Class/i/superclass.html) | スーパークラス(親クラス)を返す |
+| [message](https://docs.ruby-lang.org/ja/latest/method/Exception/i/message.html) | エラーメッセージを返す |
+
 </details>
+
+<br>
