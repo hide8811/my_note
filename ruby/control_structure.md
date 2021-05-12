@@ -419,8 +419,10 @@ end
 <span id='begin'></span>
 ### begin / rescue
 
-例外(エラーなど)が発生した場合、プログラムがそこで止まらないようにする。<br>
-`rescue => 変数`とすることで、変数にエラー内容を格納することができる。
+例外(エラーなど)が発生した場合、プログラムがそこで止まらないようにする。
+
+`rescue 例外クラス名`: 例外オブジェクトのクラス指定。<br>
+`rescue => 変数`: 変数にエラー内容を格納。
 
 ```ruby
 begin
@@ -503,6 +505,29 @@ e.message           # => divided by 0
 | [superclass](https://docs.ruby-lang.org/ja/latest/method/Class/i/superclass.html) | スーパークラス(親クラス)を返す |
 | [message](https://docs.ruby-lang.org/ja/latest/method/Exception/i/message.html) | エラーメッセージを返す |
 
+<br>
+
+**例外オブジェクトのクラス指定**<br>
+例外の種類に応じて、処理を分岐させることができる。
+
+```ruby
+begin
+  1 / 0
+rescue NameError => e
+  puts e
+end
+```
+
 </details>
 
 <br>
+
+<span id='raise'></span>
+### raise
+
+例外を発生させる。<br>
+デフォルトは`RuntimeError`。
+
+```ruby
+raise
+```
