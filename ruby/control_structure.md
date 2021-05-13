@@ -526,8 +526,40 @@ end
 ### raise
 
 例外を発生させる。<br>
-デフォルトは`RuntimeError`。
 
 ```ruby
 raise
+raise 'メッセージ'
+raise 例外クラス
+raise 例外クラス, 'メッセージ'
 ```
+
+**引数なし**:<br>
+直前の例外を再発生。直前がないときは、`RuntimeError`。
+
+```ruby
+raise  # => RuntimeError
+1/0    # => ZeroDivisionError
+raise  # => ZeroDivisionError
+```
+
+<br>
+
+**メッセージ**:<br>
+引数で指定したメッセージの`RuntimeError`を発生。
+
+```ruby
+raise 'message'
+# => #<RuntimeError: message>
+```
+
+<br>
+
+**例外クラス**:<br>
+指定した例外クラスを発生。
+
+```ruby
+raise NameError
+# => #<NameError: NameError>
+```
+
