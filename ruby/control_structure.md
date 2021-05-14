@@ -513,7 +513,7 @@ e.message           # => divided by 0
 ```ruby
 begin
   1 / 0
-rescue NameError => e
+rescue ZeroDivisionError => e
   puts e
 end
 ```
@@ -556,10 +556,20 @@ raise 'message'
 <br>
 
 **例外クラス**:<br>
-指定した例外クラスを発生。
+引数で指定した例外クラスを発生。
 
 ```ruby
 raise NameError
 # => #<NameError: NameError>
+```
+
+<br>
+
+**例外クラス, メッセージ**<br>
+引数で指定したメッセージの例外クラスを発生。
+
+```ruby
+raise NameError, 'message'
+# => #<NameError: message>
 ```
 
