@@ -15,6 +15,7 @@
 - [例外処理](#exception_handling)
     - [begin / rescue](#begin)
     - [raise](#raise)
+    - [特殊変数 $! / $@](#special_variable)
 
 <br>
 
@@ -534,6 +535,8 @@ raise 例外クラス
 raise 例外クラス, 'メッセージ'
 ```
 
+<details>
+
 **引数なし**:<br>
 直前の例外を再発生。直前がないときは、`RuntimeError`。
 
@@ -573,3 +576,56 @@ raise NameError, 'message'
 # => #<NameError: message>
 ```
 
+</details>
+
+<br>
+
+<span id='special_variable'></span>
+### 特殊変数
+
+#### $!
+
+最後に発生した例外オブジェクトが格納された変数。
+
+```ruby
+$!
+```
+
+<details>
+
+```ruby
+begin
+  1 / 0
+rescue => e
+  puts $!.class             # => ZeroDivisionError
+  puts e.class              # => ZeroDivisionError
+  puts $!.class.superclass  # => StandardError
+  puts e.class.superclass   # => StandardError
+  puts $!.message           # => divided by 0
+  puts e.message            # => divided by 0
+end
+```
+
+</details>
+
+<br>
+
+#### $@
+
+例外発生時のバックトレース(例外発生までの過程)が配列で格納された変数。
+
+```ruby
+$@
+```
+
+```ruby
+# test.rb
+
+begin
+  1/0
+rescue => e
+  p $@            # => ["test.rb:2:in `/'", "test.rb:2:in `<main>'"]
+  p $!.backtrace  # => ["test.rb:2:in `/'", "test.rb:2:in `<main>'"]
+  p e.backtrace   # => ["test.rb:2:in `/'", "test.rb:2:in `<main>'"]
+end
+```
