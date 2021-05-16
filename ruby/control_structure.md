@@ -418,20 +418,27 @@ end
 <br>
 
 <span id='begin'></span>
-### begin / rescue
+### begin
 
 例外(エラーなど)が発生した場合、プログラムがそこで止まらないようにする。
 
-`rescue 例外クラス名`: 例外オブジェクトのクラス指定。<br>
+<span id='rescue'></span>
+#### rescue
+
+例外が発生した場合の処理。
+
+`rescue 例外クラス名`: 例外オブジェクトのクラス指定。省略すると、`StandardError`のサブクラス全てを捕捉。<br>
 `rescue => 変数`: 変数にエラー内容を格納。
 
 ```ruby
 begin
   例外が起こりうるコード
-rescue
+rescue 例外クラス名, => 変数
   例外が発生した場合の処理
 end
 ```
+
+`例外クラス名`、`=> 変数`は省略可。
 
 <details>
 
@@ -489,15 +496,17 @@ Hello
 **`=>`**
 
 ```ruby
+# test.rb
+
 begin
   1 / 0
 rescue => e
-  puts e
+  p e                   # => #<ZeroDivisionError: divided by 0>
+  p e.class             # => ZeroDivisionError
+  p e.class.superclass  # => StandardError
+  p e.message           # => "divided by 0"
+  p e.backtrace         # => ["test.rb:2:in `/'", "test.rb:2:in `<main>'"]
 end
-
-e.class             # => ZeroDivisionError
-e.class.superclass  # => StandardError
-e.message           # => divided by 0
 ```
 
 | メソッド | 意味 |
@@ -505,6 +514,7 @@ e.message           # => divided by 0
 | [class](https://docs.ruby-lang.org/ja/latest/method/Object/i/class.html) | レシーバーのクラスを返す |
 | [superclass](https://docs.ruby-lang.org/ja/latest/method/Class/i/superclass.html) | スーパークラス(親クラス)を返す |
 | [message](https://docs.ruby-lang.org/ja/latest/method/Exception/i/message.html) | エラーメッセージを返す |
+| [backtrace](https://docs.ruby-lang.org/ja/latest/method/Exception/i/backtrace.html) | バックトレース(例外発生の過程)を返す |
 
 <br>
 
@@ -517,6 +527,30 @@ begin
 rescue ZeroDivisionError => e
   puts e
 end
+```
+
+<br>
+
+指定しない場合、`StandardError`のサブクラス以外は捕捉しない。
+
+```ruby
+begin
+  raise NameError
+rescue
+  puts 'hoge'
+end
+
+# => "hoge"
+```
+
+```ruby
+begin
+  raise SyntaxError
+rescue
+  puts 'hoge'
+end
+
+# => test.rb:2:in `<main>': compile error (SyntaxError)
 ```
 
 </details>
@@ -533,6 +567,7 @@ raise
 raise 'メッセージ'
 raise 例外クラス
 raise 例外クラス, 'メッセージ'
+raise 例外クラス, 'メッセージ', [バックトレース]
 ```
 
 <details>
@@ -574,6 +609,20 @@ raise NameError
 ```ruby
 raise NameError, 'message'
 # => #<NameError: message>
+```
+
+**例外クラス, メッセージ, バックトレース**
+
+クラス・メッセージ・バックトレース(例外発生の過程)を指定した例外を発生。
+
+```ruby
+begin
+  raise NameError, 'message', %w(hoge fuga piyo)
+rescue => e
+  p e.class      # => NameError
+  p e.message    # => "message"
+  p e.backtrace  # => ["hoge", "fuga", "piyo"]
+end
 ```
 
 </details>
@@ -618,6 +667,8 @@ end
 $@
 ```
 
+<details>
+
 ```ruby
 # test.rb
 
@@ -629,3 +680,5 @@ rescue => e
   p e.backtrace   # => ["test.rb:2:in `/'", "test.rb:2:in `<main>'"]
 end
 ```
+
+</details>
