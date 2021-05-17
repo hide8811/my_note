@@ -13,7 +13,10 @@
     - [next](#next)
     - [redo](#redo)
 - [例外処理](#exception_handling)
-    - [begin / rescue](#begin)
+    - [begin](#begin)
+        - [rescue](#rescue)
+        - [else](#else)
+        - [ensure](#ensure)
     - [raise](#raise)
     - [特殊変数 $! / $@](#special_variable)
 
@@ -551,6 +554,95 @@ rescue
 end
 
 # => test.rb:2:in `<main>': compile error (SyntaxError)
+```
+
+</details>
+
+<br>
+
+<span id='else'></span>
+#### else
+
+例外が発生しなかった場合の処理。
+
+```ruby
+begin
+  例外が起こりうるコード
+rescue
+  例外が発生した場合の処理
+else
+  例外が発生しなかった場合の処理
+end
+```
+
+<details>
+
+```ruby
+begin
+  n = 1 / 0
+rescue => e
+  puts e
+else
+  puts n
+end
+
+# => divided by 0
+
+
+begin
+  n = 1 / 1
+rescue => e
+  puts e
+else
+  puts n
+end
+
+# => 1
+```
+
+</details>
+
+<br>
+
+<span id='ensure'></span>
+#### ensure
+
+例外が発生してもしなくても評価される処理。
+
+```ruby
+begin
+  例外が起こりうるコード
+rescue
+  例外が発生した場合の処理
+ensure
+  必ず行う処理
+end
+```
+
+<details>
+
+```ruby
+begin
+  1 / 0
+rescue => e
+  puts e
+ensure
+  puts '終了'
+end
+
+# => divided by 0
+#    終了
+
+
+begin
+  1 / 1
+rescue => e
+  puts e
+ensure
+  puts '終了'
+end
+
+# => 終了
 ```
 
 </details>
