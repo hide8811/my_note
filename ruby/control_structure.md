@@ -17,6 +17,7 @@
         - [rescue](#rescue)
         - [else](#else)
         - [ensure](#ensure)
+        - [retry](#retry)
     - [raise](#raise)
     - [特殊変数 $! / $@](#special_variable)
 
@@ -643,6 +644,45 @@ ensure
 end
 
 # => 終了
+```
+
+</details>
+
+<br>
+
+<span id='retry'></span>
+#### retry
+
+`begin`を初めから繰り返す。<br>
+なんらかの条件で脱出しないと無限ループになる。
+
+```ruby
+begin
+  例外が起こりうるコード
+rescue
+  retry
+end
+```
+
+<details>
+
+```ruby
+num = 0
+
+begin
+  raise NameError
+rescue NameError => e
+  num += 1
+  puts "#{num} #{e}"
+
+  retry if num < 5
+end
+
+# => 1 NameError
+#    2 NameError
+#    3 NameError
+#    4 NameError
+#    5 NameError
 ```
 
 </details>
