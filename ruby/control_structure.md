@@ -426,6 +426,35 @@ end
 
 例外(エラーなど)が発生した場合、プログラムがそこで止まらないようにする。
 
+```ruby
+begin
+  例外が起こりうるコード
+rescue 例外クラス名 => 変数
+  例外が発生した場合の処理
+else
+  例外が発生しなかった場合の処理
+ensure
+  例外発生に関係なく、必ず行う処理
+end
+```
+
+【 **クラス**・**モジュール**・**メソッド**の定義時は、`begin`の省略が可能。】
+
+<details>
+
+```ruby
+def division(num)
+  10 / num
+rescue ZeroDivisionError => e
+  puts e
+end
+
+puts division(2)  # => 5
+puts division(0)  # => divided by 0
+```
+
+</details>
+
 <span id='rescue'></span>
 #### rescue
 
@@ -437,7 +466,7 @@ end
 ```ruby
 begin
   例外が起こりうるコード
-rescue 例外クラス名, => 変数
+rescue 例外クラス名 => 変数
   例外が発生した場合の処理
 end
 ```
