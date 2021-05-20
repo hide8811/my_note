@@ -478,11 +478,15 @@ end
 ```ruby
 begin
   1 / 0
-rescue => e
+rescue ZeroDivisionError => e
   puts e
 end
 
 # => divided by 0
+```
+
+```ruby
+1 / 0 rescue p $!
 ```
 
 <br>
@@ -584,6 +588,14 @@ rescue
 end
 
 # => test.rb:2:in `<main>': compile error (SyntaxError)
+```
+
+<br>
+
+1行でも記述できる。(RuboCopではエラー)
+
+```ruby
+1 / 0 rescue p $!  # => #<ZeroDivisionError: divided by 0>
 ```
 
 </details>
@@ -795,10 +807,17 @@ end
 
 #### $!
 
-最後に発生した例外オブジェクトが格納された変数。
+最後に発生した例外オブジェクトが格納された変数。<br>
+`$ERROR_INFO`と同じ(RuboCopではこちらが優先)
 
 ```ruby
 $!
+```
+
+```ruby
+require 'English'
+
+$ERROR_INFO
 ```
 
 <details>
@@ -822,10 +841,17 @@ end
 
 #### $@
 
-例外発生時のバックトレース(例外発生までの過程)が配列で格納された変数。
+例外発生時のバックトレース(例外発生までの過程)が配列で格納された変数。<br>
+`$ERROR_POSITION`と同じ(RuboCopではこちらが優先)
 
 ```ruby
 $@
+```
+
+```ruby
+require 'English'
+
+$ERROR_POSITION
 ```
 
 <details>
