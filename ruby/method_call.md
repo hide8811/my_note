@@ -1,5 +1,11 @@
 # メソッド呼び出し
 
+[リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/doc/spec=2fcall.html)
+
+- [super](#super)
+- [yield](#yield)
+
+<span id='super'></span>
 ## super
 
 オーバーライド(再定義)前のメソッドを呼び出す。
@@ -47,6 +53,45 @@ end
 Fuga.new.piyo('Hello')
 # => Hello
 #    World
+```
+
+</details>
+
+<br>
+
+<span id='yield'></span>
+## yield
+
+自分で定義したブロック付きメソッドで使用<br>
+渡された値はブロックの変数に代入される。
+
+```ruby
+def hoge
+  yield 値, 値, ...
+end
+```
+
+<details>
+
+```ruby
+class Array
+  def two_each
+    i = 0
+    while i < length
+      yield self[i], self[i + 1]
+      i += 2
+    end
+  end
+end
+
+ary = %w[a b c d e f g h]
+
+ary.two_each { |x, y| puts "#{x} - #{y}" }
+
+# => a - b
+#    c - d
+#    e - f
+#    g - h
 ```
 
 </details>
