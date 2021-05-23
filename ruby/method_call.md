@@ -63,7 +63,8 @@ Fuga.new.piyo('Hello')
 ## yield
 
 自分で定義したブロック付きメソッドで使用<br>
-渡された値はブロックの変数に代入される。
+渡された値はブロックの変数に代入される。<br>
+<span style="color: gray;">yield: 産出・もたらす・生み出す</span>
 
 ```ruby
 def hoge
@@ -72,6 +73,14 @@ end
 ```
 
 <details>
+
+```ruby
+def example
+  yield 'hoge', 'fuga'
+end
+
+example { |x, y| p "#{x} #{y}" }  # => "hoge fuga"
+```
 
 ```ruby
 class Array
