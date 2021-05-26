@@ -28,6 +28,14 @@ example.md  sample.txt
 | [-a](#a) | 隠しファイルも表示 |
 | [-A](#A) | 同上 (`.``..`を除外) |
 | [-l](#l) | 長いフォーマット表示 |
+| [-r](#r) | 逆順に表示 |
+| [-1](#one) | 1行ずつ表示 |
+| [-R](#recursive) | ディレクトリの中身も表示 |
+| [-t](#t) | 更新日順に表示 |
+| [-S](#s) | サイズ順に表示 |
+| [-X](#x) | アルファベット順に表示 |
+| [-m](#m) | `,`で区切って表示 |
+| [-Q](#q) | `"`で囲って表示 |
 
 <br>
 
@@ -106,6 +114,7 @@ drwxr-xr-x 4 user staff 128  5 24 00:00 sample
 | -h | サイズを見やすく表示(例: 1k) |
 | -c | 日付に属性変更日を表示 |
 | -u | 日付に最終アクセス日を表示 |
+| -R | ディレクトリの中身も表示 |
 
 <details>
 
@@ -140,5 +149,145 @@ drwxr-xr-x 4 user staff   128  5 24 23:15 sample
 | r | 読み込み **r**ead |
 | w | 書き込み **w**rite |
 | x | 実行 e**x**ecute |
+
+</details>
+
+<br>
+
+<span id='r'></span>
+### -r
+
+逆順に表示。
+
+```bash
+ls -r
+```
+
+<details>
+
+```bash
+$ ls -r
+test.md  sample  memo.txt  image.jpeg
+```
+
+</details>
+
+<br>
+
+<span id='one'></span>
+### -1
+
+1行ずつ表示。
+
+```bash
+ls -1
+```
+
+<details>
+
+```bash
+$ ls -1
+image.jpeg
+memo.txt
+sample
+test.md
+```
+
+</details>
+
+<br>
+
+<span id='recursive'></span>
+### -R
+
+ディレクトリの中身も表示。
+
+```bash
+ls -R
+```
+
+<details>
+
+```bash
+$ ls -R
+.:
+image.jpeg  memo.txt  sample  test.md
+
+./sample:
+example.md  sample.txt
+```
+
+</details>
+
+<br>
+
+<span id='t'></span>
+### -t
+
+更新日順に表示。
+
+```bash
+ls -t
+```
+
+<br>
+
+<span id='s'></span>
+### -S
+
+サイズ順に表示。
+
+```bash
+ls -S
+```
+
+<br>
+
+<span id='x'></span>
+### -X
+
+アルファベット順に表示。
+
+```bash
+ls -X
+```
+
+<br>
+
+<span id='m'></span>
+### -m
+
+`,`(カンマ)で区切って表示。
+
+```bash
+ls -m
+```
+
+<details>
+
+```bash
+$ ls -m
+image.jpeg, memo.txt, sample, test.md
+```
+
+</details>
+
+<br>
+
+<span id='q'></span>
+### -Q
+
+`"`(ダブルクォート)で囲って表示。
+
+```bash
+ls -Q
+```
+
+<details>
+
+```bash
+$ ls -Q
+"image.jpeg"  "memo.txt"  "sample"  "test.md"
+```
 
 </details>
