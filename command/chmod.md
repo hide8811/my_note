@@ -44,8 +44,11 @@ chmod アクセス権限 ファイルA ファイルB ...
 ## 文字列で変更
 
 ```bash
-chmod [ugoa]+([+-=]([rwx]+|[ugo])) fileA fileB ...
+chmod  MODE,MODE,... fileA fileB ...
+
+# MODE = [ugoa]+([+-=]([rwx]+|[ugo]))
 ```
+<span style='color: crimson'>※ `MODE`間にスペースは不要</span>
 
 | 記号 | 意味 |
 |:----:|:-----|
@@ -58,15 +61,29 @@ chmod [ugoa]+([+-=]([rwx]+|[ugo])) fileA fileB ...
 ```bash
 # +
 chmod u+x test.txt  # rw-r--r-- => rwxr--r--
+
+chmod g+u test.txt  # rw-r--r-- => rw-rw-r--
 ```
 
 ```bash
 # -
 chmod g-r test.txt  # rw-r--r-- => rw----r--
+
+chmod u-g test.txt  # rw-r--r-- => -w-r--r--
 ```
 
 ```bash
 # =
+chmod g=w test.txt  # rw-r--r-- => rw--w-r--
+
 chmod u=g test.txt  # rw-r--r-- => r--r--r--
+```
+
+```bash
+# 複数も可
+chmod go+w test.txt  # rw-r--r-- => rw-rw-rw-
+chmod u-rw test.txt  # rw-r--r-- => ---r--r--
+chmod g+w-r test.txt  # rw-r--r-- => rw--w-r--
+chmod g+w,o-r test.txt  # rw-r--r-- => rw-rw----
 ```
 </details>
