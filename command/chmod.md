@@ -87,3 +87,39 @@ chmod g+w-r test.txt  # rw-r--r-- => rw--w-r--
 chmod g+w,o-r test.txt  # rw-r--r-- => rw-rw----
 ```
 </details>
+
+<br>
+
+<span id='integer'></span>
+## 数値(8進数)で変更
+
+指定したい権限の数値を足す。<br>
+<span style='color: gray;'>例）読み込み(4) + 読み込み(2) => 6</span>
+
+```bash
+chmod MODE fileA foleB ...
+
+# MODE = [0-7]{3}
+```
+
+<details>
+
+```bash
+chmod 751 test.txt  # => rw-r--r-- => rwxr-x--x
+```
+
+| 数値 | 意味 | 記号 |
+|:----:|:-----|:----:|
+| 7 | 読み込み + 書き込み + 実行 | rwx |
+| 6 | 読み込み + 書き込み | rw- |
+| 5 | 読み込み + 実行 | r-x |
+| 4 | 読み込み | r-- |
+| 3 | 書き込み + 実行 | -wx |
+| 2 | 書き込み | -w- |
+| 1 | 実行 | --x |
+| 0 | 権限なし | --- |
+
+</details>
+
+<br>
+
