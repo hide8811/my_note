@@ -4,7 +4,7 @@
 <span style="color: gray;">【**ch**ange **mod**e】</span>
 
 ```bash
-chmod アクセス権限 ファイルA ファイルB ...
+chmod OPTION MODE,MODE,... fileA fileB ...
 ```
 
 - [文字列で変更](#string)
@@ -123,3 +123,108 @@ chmod 751 test.txt  # => rw-r--r-- => rwxr-x--x
 
 <br>
 
+<span id='option'></span>
+## オプション
+
+|   | 意味 |
+|:-:|:----:|
+| -c | 変更のあった処理を出力 |
+| -v | 全ての処理を出力 |
+| --reference=参照ファイル | 参照ファイルと同じパーミッションに変更 |
+| -R | ディレクトリ内のファイルも同時に変更 |
+
+### -c
+
+```bash
+chmod -c MODE file
+```
+
+<details>
+
+```bash
+$ chmod -c g+w test.txt
+mode of 'test.txt' changed from 0644 (rw-r--r--) to 0664 (rw-rw-r--)
+```
+
+```bash
+$ chmod -c u+w test.txt
+# 変更なし
+```
+
+</details>
+
+<br>
+
+### -v
+
+```bash
+chmod -v MODE file
+```
+
+<details>
+
+```bash
+$ chmod -v g+w test.txt
+mode of 'test.txt' changed from 0644 (rw-r--r--) to 0664 (rw-rw-r--)
+```
+
+```bash
+$ chmod -v u+r test.txt
+mode of 'test.txt' retained as 0644 (rw-r--r--)
+```
+
+</details>
+
+<br>
+
+### --reference=参照ファイル
+
+```bash
+chmod --reference=fileR fileA
+```
+
+<details>
+
+```bash
+$ ls -l
+-rw-rw-rw- x user group xxx xx xx xx:xx sample.txt
+-rw-r--r-- x user group xxx xx xx xx:xx test.txt
+
+$ chmod --reference=sample.txt test.txt  # rw-r--r-- => rw-rw-rw-
+
+$ ls -l
+-rw-rw-rw- x user group xxx xx xx xx:xx sample.txt
+-rw-rw-rw- x user group xxx xx xx xx:xx test.txt
+```
+
+</details>
+
+<br>
+
+### -R
+
+```bash
+chmod -R MODE directory
+```
+
+<details>
+
+```bash
+$ ls -lR
+drwxr-xr-x x user group xxx xx xx xx:xx sample
+
+./sample:
+-rw-r--r-- x usre group xxx xx xx xx:xx sample.txt
+-rw-r--r-- x usre group xxx xx xx xx:xx test.txt
+
+$ chmod -R 111 sample
+
+$ ls -lR
+d--x--x--x x user group xxx xx xx xx:xx sample
+
+./sample:
+---x--x--x x usre group xxx xx xx xx:xx sample.txt
+---x--x--x x usre group xxx xx xx xx:xx test.txt
+```
+
+</details>
