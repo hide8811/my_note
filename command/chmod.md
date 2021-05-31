@@ -10,6 +10,7 @@ chmod OPTION MODE,MODE,... fileA fileB ...
 - [文字列で変更](#string)
 - [数値で変更](#integer)
 - [オプション](#option)
+- [特殊なアクセス権](#special)
 
 <br>
 
@@ -228,3 +229,30 @@ d--x--x--x x user group xxx xx xx xx:xx sample
 ```
 
 </details>
+
+<br>
+
+<span id='special'></span>
+## 特殊なアクセス権
+
+| 記号 | 数値 | 名前 | 意味 |
+|:----:|:----:|:----:|:-----|
+| t | 1000 | スティッキービット(Sticky Bit) | 所有者(とroot)以外は削除不可 |
+
+<br>
+
+<span id='sticky_bit'></span>
+### スティッキービット(Sticky Bit)
+
+所有者とroot以外は削除ができない。<br>
+記号はその他(other)に`t`。
+
+drwxrwxrw<span style='color: mediumvioletred;'>t</span>
+
+```bash
+chmod o+t file
+```
+
+```bash
+chmod 1777 file
+```
