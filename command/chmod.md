@@ -11,6 +11,8 @@ chmod OPTION MODE,MODE,... fileA fileB ...
 - [数値で変更](#integer)
 - [オプション](#option)
 - [特殊なアクセス権](#special)
+    - [スティッキービット](#sticky_bit)
+    - [SGID](#sgid)
 
 <br>
 
@@ -238,11 +240,12 @@ d--x--x--x x user group xxx xx xx xx:xx sample
 | 記号 | 数値 | 名前 | 意味 |
 |:----:|:----:|:----:|:-----|
 | t | 1000 | スティッキービット(Sticky Bit) | 所有者(とroot)以外は削除不可 |
+| s | 2000 | SGID (Set Group ID) | 実行時、所有グループ権限で実行 |
 
 <br>
 
 <span id='sticky_bit'></span>
-### スティッキービット(Sticky Bit)
+### スティッキービット (Sticky Bit)
 
 所有者とroot以外は削除ができない。<br>
 記号はその他(other)に`t`。
@@ -250,9 +253,31 @@ d--x--x--x x user group xxx xx xx xx:xx sample
 drwxrwxrw<span style='color: mediumvioletred;'>t</span>
 
 ```bash
+# 文字列
 chmod o+t file
 ```
 
 ```bash
-chmod 1777 file
+# 数値
+chmod 1xxx file
+```
+
+<br>
+
+<span id='sgid'></span>
+### SGID (Set Group ID)
+
+この実行権があるファイルを実行すると、所有グループの権限で実行される。<br>
+記号はグループ(group)に`s`
+
+-rwxr-<span style='color: mediumvioletred;'>s</span>r-x
+
+```bash
+# 文字列
+chmod g+s file
+```
+
+```bash
+# 数値
+chmod 2xxx file
 ```
