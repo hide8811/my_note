@@ -14,6 +14,7 @@ chmod OPTION MODE,MODE,... fileA fileB ...
     - [スティッキービット](#sticky_bit)
     - [SGID](#sgid)
     - [SUID](#suid)
+- [パーミッションのデフォルト値の変更【umask】](#umask)
 
 <br>
 
@@ -303,3 +304,59 @@ chmod u+s file
 # 数値
 chmod 4xxx file
 ```
+
+<br>
+
+<span id='umask'></span>
+## パーミッションのデフォルト値
+
+ファイルやディレクトリを新規作成した際のデフォルトのパーミッションは、<br>
+`umask`コマンドで、確認・変更ができる。
+
+```bash
+# 確認
+umask
+```
+
+```bash
+# 変更
+umask 値
+```
+
+ファイル`666`・ディレクトリ`777`から、`umask`の値を引いたものがデフォルトのパーミッションになる。
+
+<details>
+
+`umask => 022`
+
+**ディレクトリの場合**<br>
+`777 - 022 => 755`
+
+```bash
+$ umask
+022
+
+$ mkdir sample
+
+$ ls -l
+drwxr-xr-x user group xxx x xx xx:xx sample
+```
+
+<br>
+
+**ファイルの場合**<br>
+`666 - 022 => 644`
+
+```bash
+$ umask
+022
+
+$ touch sample.txt
+
+$ ls -l
+-rw-r--r-- user group xxx x xx xx:xx sample.txt
+```
+
+</details>
+
+
