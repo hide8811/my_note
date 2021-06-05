@@ -46,6 +46,40 @@ p file  # => #<File:test.txt (closed)>
 | w | 書き込み (ファイルが存在する場合は内容を空に) |
 | a | 追加書き込み |
 
+<details>
+
+```txt
+# test.txt
+Hello
+```
+
+<br>
+
+**`r` (読み込み)**
+
+```ruby
+file = File.open('test.txt', 'r')
+
+content = file.read
+
+file.close
+
+puts content  # => Hello
+```
+
+```ruby
+# 書き込みは不可
+file = File.open('test.txt', 'r')
+
+file.write('World')  # => IOError (not opened for writing)
+```
+
+<br>
+
+
+
+</details>
+
 [リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/method/Kernel/m/open.html)
 
 <br>
