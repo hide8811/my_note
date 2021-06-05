@@ -76,7 +76,29 @@ file.write('World')  # => IOError (not opened for writing)
 
 <br>
 
+**`w` (書き込み)**
 
+ファイル内は空になる。
+
+```ruby
+file = File.open('test.txt', 'w')
+
+file.write('World')
+
+file.close
+```
+
+```txt
+# test.txt
+World
+```
+
+```ruby
+# 読み込みは不可
+file = File.open('test.txt', 'w')
+
+file.read  # => IOError (not opened for reading)
+```
 
 </details>
 
