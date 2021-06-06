@@ -100,6 +100,33 @@ file = File.open('test.txt', 'w')
 file.read  # => IOError (not opened for reading)
 ```
 
+<br>
+
+**`a`  (追記)**
+
+ファイル末尾に追記する。
+
+```ruby
+file = File.open('test.txt', 'a')
+
+file.write('World')
+
+file.close
+```
+
+```txt
+# test.txt
+Hello
+World
+```
+
+```ruby
+# 読み込みは不可
+file = File.open('test.txt', 'w')
+
+file.read  # => IOError (not opened for reading)
+```
+
 </details>
 
 [リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/method/Kernel/m/open.html)
