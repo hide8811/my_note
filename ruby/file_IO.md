@@ -45,6 +45,7 @@ p file  # => #<File:test.txt (closed)>
 | r | 読み込み |
 | w | 書き込み (ファイルが存在する場合は内容を空に) |
 | a | 追加書き込み |
+| r+ + | 読み書き (ファイル先頭位置から) |
 
 <details>
 
@@ -125,6 +126,44 @@ World
 file = File.open('test.txt', 'w')
 
 file.read  # => IOError (not opened for reading)
+```
+
+<br>
+
+**`r+` (先頭から読み書き)**
+
+ファイルの先頭位置から読み書き(上書き)。
+
+```ruby
+# 読み込み
+file.File.open('test.txt', 'r+')
+
+file.read  # => Hello
+
+file.close
+```
+
+<br>
+
+```txt
+# test.txt
+Hello
+World
+```
+
+```ruby
+# 書き込み
+file = File.open('test.txt', 'r+')
+
+file.write('xxxxx')  # ファイルの先頭に書き込み
+
+file.close
+```
+
+```txt
+# test.txt
+xxxxx
+World
 ```
 
 </details>
