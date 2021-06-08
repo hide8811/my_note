@@ -14,9 +14,38 @@
 File.open('ファイル名', 'モード')
 
 File.open('ファイル名', 'モード') { |f| 処理 }
+
+File.open('ファイル名', 'モード', &:メソッド)
 ```
 
-<details><summary>ブロックがある場合、終了後自動で`close`される。</summary>
+<details>
+
+```ruby
+# 代入
+file = File.open('test.txt', 'r')
+
+content = file.read
+
+file.close
+
+p content  # => "Hello\n"
+```
+
+```ruby
+# ブロック
+File.open('test.txt', 'r') { |r| p r.read }  # => "Hello\n"
+```
+
+```ruby
+# ブロック省略
+content = File.open('test.txt', 'r', &:read)
+
+p content  # => "Hello\n"
+```
+
+<br>
+
+ブロックがある場合、終了後自動で`close`される。
 
 ```ruby
 # ブロックなし
@@ -45,7 +74,8 @@ p file  # => #<File:test.txt (closed)>
 | r | 読み込み |
 | w | 書き込み (ファイルが存在する場合は内容を空に) |
 | a | 追加書き込み |
-| r+ + | 読み書き (ファイル先頭位置から) |
+| r+ | 読み書き (ファイル先頭位置から) |
+| w+ | 読み書き (ファイルが存在する場合は内容を空に) |
 
 <details>
 
@@ -70,9 +100,9 @@ puts content  # => Hello
 
 ```ruby
 # 書き込みは不可
-file = File.open('test.txt', 'r')
-
-file.write('World')  # => IOError (not opened for writing)
+File.open('test.txt', 'r') do |f|
+  f.write('World')  # => IOError (not opened for writing)
+end
 ```
 
 <br>
@@ -82,11 +112,7 @@ file.write('World')  # => IOError (not opened for writing)
 ファイル内は空になる。
 
 ```ruby
-file = File.open('test.txt', 'w')
-
-file.write('World')
-
-file.close
+File.open('test.txt', 'w') { |f| f.write('World') }
 ```
 
 ```txt
@@ -96,9 +122,9 @@ World
 
 ```ruby
 # 読み込みは不可
-file = File.open('test.txt', 'w')
-
-file.read  # => IOError (not opened for reading)
+File.open('test.txt', 'w') do |f|
+  f.read  # => IOError (not opened for reading)
+end
 ```
 
 <br>
@@ -108,11 +134,7 @@ file.read  # => IOError (not opened for reading)
 ファイル末尾に追記する。
 
 ```ruby
-file = File.open('test.txt', 'a')
-
-file.write('World')
-
-file.close
+File.open('test.txt', 'a') { |f| file.write('World') }
 ```
 
 ```txt
@@ -123,9 +145,9 @@ World
 
 ```ruby
 # 読み込みは不可
-file = File.open('test.txt', 'w')
-
-file.read  # => IOError (not opened for reading)
+File.open('test.txt', 'w') do |f|
+  file.read  # => IOError (not opened for reading)
+end
 ```
 
 <br>
@@ -136,11 +158,13 @@ file.read  # => IOError (not opened for reading)
 
 ```ruby
 # 読み込み
-file.File.open('test.txt', 'r+')
+file = File.open('test.txt', 'r+')
 
-file.read  # => Hello
+content = file.read
 
 file.close
+
+puts content  # => Hello
 ```
 
 <br>
@@ -153,16 +177,33 @@ World
 
 ```ruby
 # 書き込み
-file = File.open('test.txt', 'r+')
-
-file.write('xxxxx')  # ファイルの先頭に書き込み
-
-file.close
+File.open('test.txt', 'r+') { |f| f.write('xxxxx') }
 ```
 
 ```txt
 # test.txt
 xxxxx
+World
+```
+
+<br>
+
+**'w+' (空にして読み書き)**
+
+```ruby
+# 読み込み
+file = File.open('test.txt', 'w+', &:read)
+
+p contnt  # => ""
+```
+
+```ruby
+# 書き込み
+File.open('test.txt', 'w+') { |f| f.write('World') }
+```
+
+```txt
+# test.txt
 World
 ```
 
