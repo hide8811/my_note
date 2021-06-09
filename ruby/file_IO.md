@@ -76,17 +76,16 @@ p file  # => #<File:test.txt (closed)>
 | a | 追加書き込み |
 | r+ | 読み書き (ファイル先頭位置から) |
 | w+ | 読み書き (ファイルが存在する場合は内容を空に) |
+| a+ | 読み書き (読み込み: 先頭、書き込み: 末尾) |
 
 <details>
 
-```txt
-# test.txt
+**`r` (読み込み)**
+
+```bash
+$ cat test.txt
 Hello
 ```
-
-<br>
-
-**`r` (読み込み)**
 
 ```ruby
 file = File.open('test.txt', 'r')
@@ -98,6 +97,8 @@ file.close
 puts content  # => Hello
 ```
 
+<br>
+
 ```ruby
 # 書き込みは不可
 File.open('test.txt', 'r') do |f|
@@ -105,20 +106,27 @@ File.open('test.txt', 'r') do |f|
 end
 ```
 
-<br>
+---
 
 **`w` (書き込み)**
 
 ファイル内は空になる。
 
+```bash
+$ cat test.txt
+Hello
+```
+
 ```ruby
 File.open('test.txt', 'w') { |f| f.write('World') }
 ```
 
-```txt
-# test.txt
+```bash
+$ cat test.txt
 World
 ```
+
+<br>
 
 ```ruby
 # 読み込みは不可
@@ -127,21 +135,28 @@ File.open('test.txt', 'w') do |f|
 end
 ```
 
-<br>
+---
 
 **`a`  (追記)**
 
 ファイル末尾に追記する。
 
+```bash
+$ cat test.txt
+Hello
+```
+
 ```ruby
 File.open('test.txt', 'a') { |f| file.write('World') }
 ```
 
-```txt
-# test.txt
+```bash
+$ cat test.txt
 Hello
 World
 ```
+
+<br>
 
 ```ruby
 # 読み込みは不可
@@ -150,17 +165,23 @@ File.open('test.txt', 'w') do |f|
 end
 ```
 
-<br>
+---
 
 **`r+` (先頭から読み書き)**
 
 ファイルの先頭位置から読み書き(上書き)。
 
+```bash
+$ cat test.txt
+Hello
+World
+```
+
 ```ruby
 # 読み込み
 file = File.open('test.txt', 'r+')
 
-content = file.read
+content = file.readline
 
 file.close
 
@@ -169,8 +190,8 @@ puts content  # => Hello
 
 <br>
 
-```txt
-# test.txt
+```bash
+$ cat test.txt
 Hello
 World
 ```
@@ -180,15 +201,21 @@ World
 File.open('test.txt', 'r+') { |f| f.write('xxxxx') }
 ```
 
-```txt
-# test.txt
+```bash
+$ cat test.txt
 xxxxx
 World
 ```
 
-<br>
+---
 
-**'w+' (空にして読み書き)**
+**`w+` (空にして読み書き)**
+
+```bash
+$ cat test.txt
+Hello
+World
+```
 
 ```ruby
 # 読み込み
@@ -197,13 +224,63 @@ file = File.open('test.txt', 'w+', &:read)
 p contnt  # => ""
 ```
 
+```bash
+$ cat test.txt
+
+```
+
+<br>
+
+```bash
+$ cat test.txt
+Hello
+```
+
 ```ruby
 # 書き込み
 File.open('test.txt', 'w+') { |f| f.write('World') }
 ```
 
-```txt
-# test.txt
+```bash
+$ cat test.txt
+World
+```
+
+---
+
+**`a+` (先頭読み込み + 追記)**
+
+```bash
+$ cat memo.txt
+Hello
+World
+```
+
+```ruby
+file.open('memo.txt', 'a+')
+
+content = file.readline
+
+file.close
+
+puts content  # => Hello
+```
+
+<br>
+
+```bash
+$ cat test.txt
+Hello
+World
+```
+
+```ruby
+File.open('test.txt', 'w+') { |f| f.write('xxxxx') }
+```
+
+```bash
+$ cat test.txt
+xxxxx
 World
 ```
 
