@@ -293,18 +293,43 @@ World
 <span id='new'></span>
 ## new (open)
 
-ファイルを新規作成。
+ファイルを新規作成。<br>
+`File.open`とほぼ同じ。<br>
+<span style='color: crimson;'>ブロックは使用不可。</span>
 
 ```ruby
 File.new('ファイル名', 'モード', パーミッション)
 ```
 
-※ `File.open`でも可。
+
+**モード**は[open](#open)と同じ。
+
+**パーミッション**は整数値。
+
+| 数値 | 意味 |
+|:----:|:----:|
+| 0o | 8進数 |
+| 4 | 読み込み (read) |
+| 2 | 書き込み (write) |
+| 1 | 実行 (execute) |
+| 0 | なし |
 
 <details>
 
 ```ruby
-File.new('test.txt', 'r')  # => #<File:test.txt>
+file = File.new('test.txt', 'w', 0o644)
+
+file.write('Hello')
+
+file.close
+```
+
+```bash
+$ ls -l test.txt
+-rw-r--r-- user group xx xx xx xx:xx  test.txt
+
+$ cat test.txt
+Hello
 ```
 
 </details>
