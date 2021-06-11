@@ -69,7 +69,11 @@ p file  # => #<File:test.txt (closed)>
 
 <br>
 
-| モード | 意味 |
+### モード
+
+文字列で指定する。
+
+| 文字列 | 意味 |
 |:------:|:-----|
 | r | 読み込み |
 | w | 書き込み (ファイルが存在する場合は内容を空に) |
@@ -282,6 +286,43 @@ File.open('test.txt', 'w+') { |f| f.write('xxxxx') }
 $ cat test.txt
 xxxxx
 World
+```
+
+</details>
+
+<br>
+
+### Universal Newline
+
+改行の処理。<br>
+モードの後に付け足す。例）`rt`
+
+| 文字列 | 読み込み時 | 書き込み時 |
+|:------:|:----------:|:----------:|
+| t | LFに変換 | OS依存 |
+| b | そのまま | そのまま |
+
+<details>
+
+#### 改行コード
+
+| 名称 | コード | 意味 | OS |
+|:----:|:------:|:-----|:--:|
+| CR<br>(Carrige Return) | \r | 復帰 (カーソルを左端に移動) | MacOS 9 以前 |
+| LF<br>(Line Feed) | \n | 改行 (カーソルを次の行に移動) | MacOS・Linux (UNIX系) |
+| CRLF<br>(CR + LF) | \r\n | 復帰 + 改行 (カーソルを左端に移動し、次に行に移動) | Windows |
+
+#### rt
+
+改行は全てLFとして読み込み。
+
+```bash
+$ cat -e test.txt
+Hello^MWorld^M
+```
+
+```ruby
+File.open('test.txt', 'rt') { |f| p f.read }  # => "Hello\nWorld\n"
 ```
 
 </details>
