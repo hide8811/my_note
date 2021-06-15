@@ -312,9 +312,16 @@ World
 | LF<br>(Line Feed) | \n | 改行 (カーソルを次の行に移動) | MacOS・Linux (UNIX系) |
 | CRLF<br>(CR + LF) | \r\n | 復帰 + 改行 (カーソルを左端に移動し、次に行に移動) | Windows |
 
+#### r
+
+**Unix系** => `rb`<br>
+**mswin・mingw** => `rt`
+
+<br>
+
 #### rt
 
-改行は全てLFとして読み込み。
+改行は全てLFとして読み込む。
 
 ```bash
 $ cat -e test.txt
@@ -323,6 +330,44 @@ Hello^MWorld^M
 
 ```ruby
 File.open('test.txt', 'rt') { |f| p f.read }  # => "Hello\nWorld\n"
+```
+
+<br>
+
+#### rb
+
+改行をそのまま読みこむ。
+
+```bash
+$ cat -e test.txt
+Hello^MWorld^M
+```
+
+```ruby
+File.open('test.txt', 'rt') { |f| p f.read }  # => "Hello\rWorld\r"
+```
+
+<br>
+
+#### w / wt
+
+`LF`書き込み時、<br>
+**Unix系** => `LF`
+**mswin・mingw** => `CRLF`
+
+<br>
+
+#### wb
+
+改行はそのまま書き込まれる。
+
+```ruby
+File.open('test.txt', 'wb') { |f| f.write("Hello\rWorld\r") }
+```
+
+```bash
+$ cat -e test.txt
+Hello^MWorld^M
 ```
 
 </details>
