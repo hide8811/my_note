@@ -1,6 +1,9 @@
 # ファイル操作
 
 - [開く【open】](#open)
+    - [モード](#mode)
+    - [改行](#newline)
+    - [エンコーディング](#encoding)
 - [新規作成【new】](#new)
 
 <br>
@@ -13,7 +16,7 @@
 ```ruby
 File.open('ファイル名', 'モード')
 
-File.open('ファイル名', 'モード') { |f| 処理 }
+File.open('ファイル名', 'モード') { |f| 処理... }
 
 File.open('ファイル名', 'モード', &:メソッド)
 ```
@@ -69,6 +72,7 @@ p file  # => #<File:test.txt (closed)>
 
 <br>
 
+<span id='mode'></span>
 ### モード
 
 文字列で指定する。
@@ -292,6 +296,7 @@ World
 
 <br>
 
+<span id='newline'></span>
 ### Universal Newline
 
 改行の処理。<br>
@@ -371,6 +376,60 @@ Hello^MWorld^M
 ```
 
 </details>
+
+<br>
+
+<span id='encoding'></span>
+### エンコーディング
+
+ファイルのエンコーディングを指定する。
+
+```ruby
+File.open('ファイル名', 'モード:外部エンコーディング:内部エンコーディング')
+```
+
+**外部エンコーディング**: ファイル側<br>
+**内部エンコーディング**: コード側
+
+<details>
+
+**読み込み**
+
+`test.txt` **→** `Shift_JIS` **→** `UTF-8` **→** `#read`
+
+```bash
+$ nkf -g test.txt
+Shift_JIS
+```
+
+```ruby
+require 'nkf'
+
+file = File.open('test.txt', 'r:Shift_JIS:UTF-8')
+
+p NKF.guess(file.read)  # => #<Encoding:UTF-8>
+
+file.close
+```
+
+<br>
+
+**書き込み**
+
+`test.txt` **←** `Shift_JIS` **←** `UTF-8` **←** `#write`
+
+```ruby
+File.open('test.txt', 'w:Shift_JIS:UTF-8') { |f| f.write('こんにちは') }
+```
+
+```bash
+$ nkf -g test.txt
+Shift_JIS
+```
+
+</details>
+
+<br>
 
 [リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/method/Kernel/m/open.html)
 
