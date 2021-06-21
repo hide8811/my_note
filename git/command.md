@@ -1,40 +1,45 @@
 # git command
 
-<span id=''></span>
+- [init 《リポジトリの作成》](#init)
 
-- [リポジトリの作成(init)](#init)]
-- [remote](#remote)
-    - [リモートリポジトリの設定(add)](#remoteadd)
-    - [リモートリポジトリの確認(-v)](#remote-v)
+<br>
 
----
+- [remote 《リモートリポジトリの設定》](#remote)
+    - [add 《追加》](#remoteadd)
+    - [-v 《確認》](#remote-v)
 
-- [ブランチ確認(branch)](#branch)
-    - [名前変更(-m)](#branch-m)
-- [ブランチ移動(checkout)](#checkout)
-    - [新しいブランチ(-b)](#checkout-b)
+<br>
 
----
+- [branch 《ブランチ一覧》](#branch)
+    - [-m 《名前変更》](#branch-m)
+- [checkout 《ブランチ移動》](#checkout)
+    - [-b 《新規作成》](#checkout-b)
 
-- [インデックスに追加(add)](#add)
-    - [変更の一部を追加(-p)](#add-p)
-- [リポジトリに保存(commit)](#commit)
-    - [hookのスキップ(-n)](#commit-n)
-- [リモートリポジトリに変更を上げる(push)](#push)
-- [ローカルリポジトリに変更を下ろす(pull)](#pull)
+<br>
 
----
+- [add 《インデックスに追加》](#add)
+    - [-p 《変更の一部を追加》](#add-p)
+- [commit 《リポジトリに保存》](#commit)
+    - [-n 《hookのスキップ》](#commit-n)
+- [push 《リモートリポジトリに変更を上げる》](#push)
+- [pull 《ローカルリポジトリに変更を下ろす》](#pull)
 
-- [状態確認(status)](#status)
+<br>
 
----
+- [status 《状態確認》](#status)
 
-- [addの取り消し(reset)](#reset)
-    - [コミットの取り消し(--soft)](#reset-soft)
-    - [コミットの削除(--hard)](#reset-hard)
+<br>
 
----
----
+- [reset 《addの取り消し》](#reset)
+    - [--soft 《コミットの取り消し》](#reset-soft)
+    - [--hard 《コミットの削除》](#reset-hard)
+
+<br>
+
+- [stash 《変更を隠す》](#stash)
+    - [apply 《復元》](#apply)
+
+<br>
 
 <span id='init'></span>
 ## inti
@@ -379,6 +384,66 @@ bc9df75 (HEAD -> master) test commit
 
 $ git status -s
 
+```
+
+</details>
+
+<br>
+
+<span id='stash'></span>
+## stash
+
+変更を隠し、一時退避。
+
+```bash
+git stash
+```
+
+※ `push`が省略されている。
+
+<details>
+
+```bash
+$ git status -s
+ M test.txt
+
+$ git stash
+Saved working directory and index state WIP on test_branch: 0545a60 Add:
+
+$ git status -s
+                # 表示されない
+```
+
+</details>
+
+<br>
+
+<span id="apply"></span>
+### apply
+
+`stash`で隠した変更を復元する。
+
+```bash
+git stash apply
+```
+
+<details>
+
+```bash
+$ git status -s
+
+
+$ git stash apply
+On branch test_branch
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   test.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git status -s
+ M test.txt
 ```
 
 </details>
