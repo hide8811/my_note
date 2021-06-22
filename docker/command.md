@@ -5,7 +5,12 @@
     - [pull 《取得》](#pull)
     - [rmi 《削除》](#rmi)
 - [コンテナ](#container)
-    - [run](#run)
+    - [run 《作成 + 起動》](#run)
+    - [ps 《一覧》](#ps)
+    - [rm 《削除》](#rm)
+- [prune 《全削除》](#prune)
+    - [system prune](#system_prune)
+    - [image prune](#image_prune)
 
 <br>
 
@@ -133,3 +138,73 @@ To generate this message, Docker took the following steps:
 ```
 
 </details>
+
+<br>
+
+<span id='ps'></span>
+### ps
+
+実行中のコンテナの一覧を表示。
+
+```bash
+docker ps
+```
+
+| オプション | 意味 |
+|:----------:|:-----|
+| -a | 全て表示 |
+
+<details>
+
+```bash
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+e84f4f752daf   ruby      "irb"                    6 seconds ago   Up 6 seconds             kind_leavitt
+3067f9179fab   nginx     "/docker-entrypoint.…"   3 minutes ago   Up 3 minutes   80/tcp    infallible_volhard
+```
+
+</details>
+
+<br>
+
+<span id='rm'></span>
+### rm
+
+コンテナの削除。
+
+```bash
+docker rm <コンテナ>
+```
+
+<br>
+
+<span id='prune'></span>
+## 全削除
+
+<span id='system_prune'></span>
+### system prune
+
+- イメージ（未参照・タグ付けなし）
+- コンテナ（停止中）
+- ネットワーク（未使用）
+
+を削除する。
+
+```bash
+docker system prune
+```
+
+| オプション | 意味 |
+|:----------:|:-----|
+| --volumes | ボリュームも削除 |
+
+<br>
+
+<span id='image_prune'></span>
+### image prune
+
+タグがなく、コンテナから参照されていないイメージを全削除。
+
+```bash
+docker image prune
+```
