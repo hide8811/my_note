@@ -123,6 +123,12 @@ Dockerコンテナを作成し、起動する。<br>
 docker run <オプション> <イメージ>
 ```
 
+| オプション | 意味 |
+|:----------:|:-----|
+| -it | 擬似ターミナルで標準入力可能に (-i + -t) |
+| --rm | コンテナ終了時、自動削除 |
+| --name <名前> | コンテナ名を付ける |
+
 <details>
 
 ```bash
@@ -135,6 +141,72 @@ To generate this message, Docker took the following steps:
 .
 .
 .
+```
+
+<br>
+
+#### -it (-i -t)
+
+擬似ターミナルで標準入力を可能にする。<br>
+コンテナ内に入る際などに使用。<br>
+`-i (--interactive)`と`-t (--tty)`の同時指定。
+
+```bash
+$ docker run nginx bash
+
+$ docker run -it nginx bash
+root@1cf3db35c7ce:/#
+```
+
+<br>
+
+#### --rm
+
+コンテナが停止するとそのまま削除される。<br>
+このオプションを指定しないと、`run`コマンドをするたび、新しいコンテナが作成されてしまう。
+
+```bash
+$ docker ps -a -f "ancestor=nginx"
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+$ docker run nginx echo "Hello"
+Hello
+
+$ docker ps -a -f "ancestor=nginx"
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                     PORTS     NAMES
+4195fc0e6062   nginx     "/docker-entrypoint.…"   2 seconds ago   Exited (0) 2 seconds ago             jolly_cerf
+
+$ docker run nginx echo "Hello"
+Hello
+
+$ docker ps -a -f "ancestor=nginx"
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                     PORTS     NAMES
+15ae29993e69   nginx     "/docker-entrypoint.…"   3 seconds ago   Exited (0) 2 seconds ago             sharp_lewin
+4195fc0e6062   nginx     "/docker-entrypoint.…"   9 seconds ago   Exited (0) 8 seconds ago             jolly_cerf
+
+$ docker run --rm nginx echo "Hello"
+Hello
+
+$ docker ps -a -f "ancestor=nginx"
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+15ae29993e69   nginx     "/docker-entrypoint.…"   12 seconds ago   Exited (0) 11 seconds ago             sharp_lewin
+4195fc0e6062   nginx     "/docker-entrypoint.…"   18 seconds ago   Exited (0) 17 seconds ago             jolly_cerf
+```
+
+<br>
+
+#### --name
+
+コンテナに任意の名前を付ける。<br>
+このオプションがない場合、自動でつけられる。
+
+```bash
+$ docker run --name hello_nginx nginx echo "Hello"
+Hello
+
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                     PORTS     NAMES
+15ce4430a102   nginx     "/docker-entrypoint.…"   3 seconds ago   Exited (0) 2 seconds ago             hello_nginx
 ```
 
 </details>
@@ -153,6 +225,14 @@ docker ps
 | オプション | 意味 |
 |:----------:|:-----|
 | -a | 全て表示 |
+| -f <フィルタ>=<値> | フィルタリング |
+
+| フィルタ | 値 | 意味 |
+|:--------:|:---|:-----|
+| name | コンテナ名 |
+| ancestor | イメージ名(:タグ)、イメージID |
+| before | コンテナ名、コンテナID | 値のコンテナよりも**前**に作成されたもの |
+| since | コンテナ名、コンテナID | 値のコンテナよりも**後**に作成されたもの |
 
 <details>
 
@@ -161,6 +241,54 @@ $ docker ps
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
 e84f4f752daf   ruby      "irb"                    6 seconds ago   Up 6 seconds             kind_leavitt
 3067f9179fab   nginx     "/docker-entrypoint.…"   3 minutes ago   Up 3 minutes   80/tcp    infallible_volhard
+```
+
+<br>
+
+#### -a (--all)
+
+通常の`ps`コマンドは実行中のコンテナしか見ることができない。<br>
+`-a`(`--all`)オプションで停止中のコンテナも見ることができる。
+
+```bash
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND              CREATED              STATUS              PORTS                               NAMES
+0c0f6434bf7f   httpd     "httpd-foreground"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp, :::80->80/tcp   apache_test
+
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS                               NAMES
+0c0f6434bf7f   httpd     "httpd-foreground"       4 minutes ago    Up 4 minutes                0.0.0.0:80->80/tcp, :::80->80/tcp   apache_test
+e619307928ac   nginx     "/docker-entrypoint.…"   11 minutes ago   Exited (0) 10 minutes ago                                       nginx_test
+```
+
+<br>
+
+#### -f (--filter)
+
+`-f`(`--filter`)オプションで、表示結果のフィルタリングが可能
+
+```bash
+docker ps -f "<フィルタ><値>" -f "<フィルタ><値>" ...
+```
+
+複数フィルタリング可。`"`の省略可。
+
+```bash
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                          PORTS     NAMES
+24405ab922e5   ruby      "irb"                    47 seconds ago   Exited (0) 46 seconds ago                 ruby_test
+0c0f6434bf7f   httpd     "httpd-foreground"       7 minutes ago    Exited (0) About a minute ago             apache_test
+e619307928ac   nginx     "/docker-entrypoint.…"   13 minutes ago   Exited (0) 13 minutes ago                 nginx_test
+
+$ docker ps -a -f "name=nginx_test"
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+e619307928ac   nginx     "/docker-entrypoint.…"   13 minutes ago   Exited (0) 13 minutes ago             nginx_test
+
+$ docker -a -f name=nginx_test -f name=ruby_test
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+24405ab922e5   ruby      "irb"                    12 minutes ago   Exited (0) 12 minutes ago             ruby_test
+e619307928ac   nginx     "/docker-entrypoint.…"   25 minutes ago   Exited (0) 25 minutes ago             nginx_test
+
 ```
 
 </details>
