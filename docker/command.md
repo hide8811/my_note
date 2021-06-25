@@ -226,6 +226,7 @@ docker ps
 |:----------:|:-----|
 | -a | 全て表示 |
 | -f <フィルタ>=<値> | フィルタリング |
+| --format "{{.<出力するフォーマット>}}" | 出力整形 |
 
 | フィルタ | 値 | 意味 |
 |:--------:|:---|:-----|
@@ -233,6 +234,12 @@ docker ps
 | ancestor | イメージ名(:タグ)、イメージID |
 | before | コンテナ名、コンテナID | 値のコンテナよりも**前**に作成されたもの |
 | since | コンテナ名、コンテナID | 値のコンテナよりも**後**に作成されたもの |
+
+| フォーマット | 意味 |
+|:------------:|:----:|
+| ID | コンテナID |
+| Image | イメージID |
+| Names | コンテナ名 |
 
 <details>
 
@@ -289,6 +296,25 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS       
 24405ab922e5   ruby      "irb"                    12 minutes ago   Exited (0) 12 minutes ago             ruby_test
 e619307928ac   nginx     "/docker-entrypoint.…"   25 minutes ago   Exited (0) 25 minutes ago             nginx_test
 
+```
+
+<br>
+
+#### --format
+
+Goテンプレートで出力結果のフォーマットを指定。
+
+```bash
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS                    PORTS     NAMES
+15ce4430a102   nginx     "/docker-entrypoint.…"   24 hours ago   Exited (0) 24 hours ago             nginx_test
+68eccedc2f88   ruby      "irb"                    24 hours ago   Exited (0) 24 hours ago             hello_ruby
+0c0f6434bf7f   httpd     "httpd-foreground"       25 hours ago   Exited (0) 25 hours ago             apache_test
+
+$ docker ps -a --format "{{.Names}}"
+nginx_test
+hello_ruby
+apache_test
 ```
 
 </details>
