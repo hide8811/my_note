@@ -125,9 +125,10 @@ docker run <オプション> <イメージ>
 
 | オプション | 意味 |
 |:----------:|:-----|
-| -it | 擬似ターミナルで標準入力可能に (-i + -t) |
-| --rm | コンテナ終了時、自動削除 |
-| --name <名前> | コンテナ名を付ける |
+| [**-it**](#run-it) | 擬似ターミナルで標準入力可能に (-i + -t) |
+| [**--rm**](#run-rm) | コンテナ終了時、自動削除 |
+| [**--name** <名前>](#run-name) | コンテナ名を付ける |
+| [**-p** <ホスト側>**:**<コンテナ側>](#run-p) | ポートを繋ぐ |
 
 <details>
 
@@ -145,6 +146,7 @@ To generate this message, Docker took the following steps:
 
 <br>
 
+<span id='run-it'></span>
 #### -it (-i -t)
 
 擬似ターミナルで標準入力を可能にする。<br>
@@ -160,6 +162,7 @@ root@1cf3db35c7ce:/#
 
 <br>
 
+<span id='run-rm'></span>
 #### --rm
 
 コンテナが停止するとそのまま削除される。<br>
@@ -195,6 +198,7 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS       
 
 <br>
 
+<span id='run-name'></span>
 #### --name
 
 コンテナに任意の名前を付ける。<br>
@@ -207,6 +211,33 @@ Hello
 $ docker ps -a
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                     PORTS     NAMES
 15ce4430a102   nginx     "/docker-entrypoint.…"   3 seconds ago   Exited (0) 2 seconds ago             hello_nginx
+```
+
+<br>
+
+<span id='run-p'></span>
+#### -p
+
+ポートを公開しバインド。
+
+```bash
+$ docker run nginx
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+cbd4c750c398   nginx     "/docker-entrypoint.…"   3 seconds ago   Up 3 seconds   80/tcp    pensive_mcclintock
+
+# localhost:80 => このサイトにアクセスできません
+```
+
+```bash
+$ docker run -p 80:80
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                               NAMES
+ca60a8675a0a   nginx     "/docker-entrypoint.…"   6 seconds ago   Up 4 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   unruffled_meninsky
+
+# localhost:80 => Welcome to nginx!
 ```
 
 </details>
@@ -224,9 +255,9 @@ docker ps
 
 | オプション | 意味 |
 |:----------:|:-----|
-| -a | 全て表示 |
-| -f <フィルタ>=<値> | フィルタリング |
-| --format "{{.<出力するフォーマット>}}" | 出力整形 |
+| [-a](#ps-a) | 全て表示 |
+| [-f <フィルタ>=<値>](#ps-f) | フィルタリング |
+| [--format "{{.<出力するフォーマット>}}"](#ps-format) | 出力整形 |
 
 | フィルタ | 値 | 意味 |
 |:--------:|:---|:-----|
@@ -252,6 +283,7 @@ e84f4f752daf   ruby      "irb"                    6 seconds ago   Up 6 seconds  
 
 <br>
 
+<span id='ps-a'></span>
 #### -a (--all)
 
 通常の`ps`コマンドは実行中のコンテナしか見ることができない。<br>
@@ -270,6 +302,7 @@ e619307928ac   nginx     "/docker-entrypoint.…"   11 minutes ago   Exited (0) 
 
 <br>
 
+<span id='ps-f'></span>
 #### -f (--filter)
 
 `-f`(`--filter`)オプションで、表示結果のフィルタリングが可能
@@ -300,6 +333,7 @@ e619307928ac   nginx     "/docker-entrypoint.…"   25 minutes ago   Exited (0) 
 
 <br>
 
+<span id='ps-format'></span>
 #### --format
 
 Goテンプレートで出力結果のフォーマットを指定。
