@@ -4,6 +4,7 @@
     - [images《一覧表示》](#images) 
     - [pull 《取得》](#pull)
     - [rmi 《削除》](#rmi)
+    - [build 《作成》](#build)
 - [コンテナ](#container)
     - [run 《作成 + 起動》](#run)
     - [ps 《一覧》](#ps)
@@ -109,6 +110,32 @@ hello-world   linux     d1165f221234   3 months ago   13.3kB
 ```
 
 </details>
+
+<br>
+
+<span id='build'></span>
+### build
+
+`Dockerfile`からイメージを作成する。
+
+```bash
+docker build <Dockerfileのあるパス>
+```
+
+<details>
+
+カレントディレクトリに`Dockerfile`がある場合
+
+```bash
+$ ls
+Dockerfile
+
+$ docker build .
+```
+
+</details>
+
+<br>
 
 <span id='container'></span>
 ## Dockerコンテナ
