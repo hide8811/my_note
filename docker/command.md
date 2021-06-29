@@ -122,6 +122,10 @@ hello-world   linux     d1165f221234   3 months ago   13.3kB
 docker build <Dockerfileのあるパス>
 ```
 
+| オプション | 意味 |
+|:----------:|:-----|
+| [-f <ファイル名>](#file) | Dockerfileの指定 |
+
 <details>
 
 カレントディレクトリに`Dockerfile`がある場合
@@ -131,6 +135,39 @@ $ ls
 Dockerfile
 
 $ docker build .
+```
+
+<br>
+
+<span id='file'></span>
+#### -f (--file)
+
+`Dockerfile`を指定できる。<br>
+デフォルトは`Dockerfile`
+
+```bash
+$ ls
+Dockerfile  Dockerfile_httpd
+
+$ cat Dockerfile
+FROM nginx
+
+$ cat Dockerfile_httpd
+FROM httpd
+
+$ docker build .
+[+] Building 0.2s (5/5) FINISHED
+ => [internal] load build definition from Dockerfile
+ .
+ .
+ .
+
+$ docker build -f Dockerfile_httpd .
+[+] Building 0.2s (5/5) FINISHED
+ => [internal] load build definition from Dockerfile_httpd
+ .
+ .
+ .
 ```
 
 </details>
