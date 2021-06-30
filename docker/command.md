@@ -124,7 +124,8 @@ docker build <Dockerfileのあるパス>
 
 | オプション | 意味 |
 |:----------:|:-----|
-| [-f <ファイル名>](#file) | Dockerfileの指定 |
+| [-f <ファイル名>](#build_file) | Dockerfileの指定 |
+| [-t <リポジトリ>:<タグ>](#build_tag) | リポジトリ名とタグを指定 |
 
 <details>
 
@@ -139,7 +140,7 @@ $ docker build .
 
 <br>
 
-<span id='file'></span>
+<span id='build_file'></span>
 #### -f (--file)
 
 `Dockerfile`を指定できる。<br>
@@ -168,6 +169,35 @@ $ docker build -f Dockerfile_httpd .
  .
  .
  .
+```
+
+<br>
+
+<span id='build_tag'></span>
+#### -t (--tag)
+
+`build`時に、リポジトリ名やタグを指定する。
+
+```bash
+$ docker build .
+.
+.
+.
+
+$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+<none>       <none>    1e80f1d15656   7 days ago   133MB
+```
+
+```bash
+$ docker build -t tag_test .
+.
+.
+.
+
+$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+tag_test     latest    1e80f1d15656   7 days ago   133MB
 ```
 
 </details>
