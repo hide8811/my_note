@@ -34,6 +34,15 @@ docker images <リポジトリ名>
 docker images <リポジトリ名>:<タグ>
 ```
 
+| オプション | 意味 |
+|:----------:|:-----|
+| [-a](#images-a) | 全てを表示 |
+| [-f <フィルタ>=<値>](#images-f) | フィルタリング |
+
+| フィルタ | 値 | 意味 |
+|:--------:|:---|:-----|
+| dangling | true \| false | タグ付けされていないイメージ |
+
 <details>
 
 ```bash
@@ -49,6 +58,36 @@ $ docker images hello-world
 REPOSITORY    TAG      IMAGE ID       CREATED        SIZE
 hello-world   latest    d1165f221234   3 months ago   13.3kB
 hello-world   linux     d1165f221234   3 months ago   13.3kB
+```
+
+<br>
+
+<span id='image-a'></span>
+#### -a
+
+全てのイメージ(中間コンテナのイメージ)を表示。
+
+```bash
+$ docker images -a
+```
+
+<br>
+
+<span id='images-f'></span>
+#### -f (-filter)
+
+表示結果のフィルタリング。
+
+```bash
+$ docker images -f dangling=true
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+<none>       <none>    fccfa49b1344   9 days ago    138MB
+<none>       <none>    744465cdb82e   12 days ago   1.36GB
+
+$ docker images -f dangling=false
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+nginx        latest    4f380adfc10f   9 days ago   133MB
+httpd        latest    30287d899656   9 days ago   138MB
 ```
 
 </details>
