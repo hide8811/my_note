@@ -38,10 +38,11 @@ docker images <リポジトリ名>:<タグ>
 |:----------:|:-----|
 | [-a](#images-a) | 全てを表示 |
 | [-f <フィルタ>=<値>](#images-f) | フィルタリング |
+| [-q](#images-q) | IDのみ |
 
 | フィルタ | 値 | 意味 |
 |:--------:|:---|:-----|
-| dangling | true \| false | タグ付けされていないイメージ |
+| dangling | true <span style='opacity: 0.5;'>\|</span> false | タグ付けされていないイメージ |
 
 <details>
 
@@ -88,6 +89,25 @@ $ docker images -f dangling=false
 REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
 nginx        latest    4f380adfc10f   9 days ago   133MB
 httpd        latest    30287d899656   9 days ago   138MB
+```
+
+<br>
+
+<span id='images-q'></span>
+#### -q
+
+イメージIDのみの表示。<br>
+`rmi`コマンドと一緒に使用。
+
+```bash
+$ docker images -q
+8a1363f3851e
+4f380adfc10f
+1e80f1d15656
+```
+
+```bash
+$ docker rmi $(docker images -q)
 ```
 
 </details>
@@ -391,13 +411,14 @@ docker ps
 | [-a](#ps-a) | 全て表示 |
 | [-f <フィルタ>=<値>](#ps-f) | フィルタリング |
 | [--format "{{.<出力するフォーマット>}}"](#ps-format) | 出力整形 |
+| [-q](#ps-q) | IDのみ |
 
 | フィルタ | 値 | 意味 |
 |:--------:|:---|:-----|
 | name | コンテナ名 |
-| ancestor | イメージ名(:タグ)、イメージID |
-| before | コンテナ名、コンテナID | 値のコンテナよりも**前**に作成されたもの |
-| since | コンテナ名、コンテナID | 値のコンテナよりも**後**に作成されたもの |
+| ancestor | イメージ名(:タグ) <span style='opacity: 0.5;'>\|</span> イメージID |
+| before | コンテナ名 <span style='opacity: 0.5;'>\|</span> コンテナID | 値のコンテナよりも**前**に作成されたもの |
+| since | コンテナ名 <span style='opacity: 0.5;'>\|</span> コンテナID | 値のコンテナよりも**後**に作成されたもの |
 
 | フォーマット | 意味 |
 |:------------:|:----:|
@@ -483,6 +504,26 @@ nginx_test
 hello_ruby
 apache_test
 ```
+
+<br>
+
+<span id='ps-q'></span>
+#### -q
+
+コンテナIDのみ表示。<br>
+`rm`コマンドと一緒に使用。
+
+```bash
+$ docker ps -q
+7d836f929dc1
+57dce84b9ca3
+171d3ccfabbd
+```
+
+```bash
+$ docker rm $(docker ps -q)
+```
+
 
 </details>
 
