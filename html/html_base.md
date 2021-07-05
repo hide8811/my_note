@@ -84,3 +84,44 @@
 
 cssファイルを読み込む。<br>
 `herf="〜"`にパスを指定。(相対・絶対どちらでも可)
+
+<br>
+
+## JavaScript
+
+```html
+<script src="script.js"></script>
+```
+
+JavaScriptファイルを読み込む。<br>
+`src="〜"`にパスを指定。(相対・絶対どちらでも可)
+
+scriptタグの記載位置は、`<head>`内でも可。
+
+<details>
+
+`<head>`内：bodyより前に読み込み<br>
+`<body>`内：bodyの最後に読み込み
+
+```js
+// test.js
+const p = document.getElementById('test');
+
+console.log(p);
+```
+
+```html
+<head>
+
+  〜略〜
+
+  <script src="test.js"></script>  <!-- nil -->
+</head>
+<body>
+  <p id="test">test</p>
+
+  <script src="test.js"></script> <!-- <p id="test">test</p> -->
+</body>
+```
+
+</details>
