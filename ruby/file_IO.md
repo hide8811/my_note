@@ -5,6 +5,8 @@
     - [改行](#newline)
     - [エンコーディング](#encoding)
 - [新規作成【new】](#new)
+- [ファイル読み込み](#read)
+    - [gets(readline) 《1行読み込み》](#gets)
 
 <br>
 
@@ -481,3 +483,89 @@ Hello
 
 [リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/method/File/s/new.html)
 
+<br>
+
+<span id='read'></span>
+## 読み込み
+
+<span id='gets'></span>
+### gets (readline)
+
+ファイルから1行だけ読み込む。
+
+```ruby
+File.open('ファイル名', 'r') { |f| f.gets }
+
+File.open('ファイル名', 'r') { |f| f.readline }
+```
+
+`gets`と`readline`の違いは、EOF(End of File: ファイルの終端)での挙動。
+
+| メソッド | 挙動 |
+|:--------:|:-----|
+| gets | nil |
+| readline | EOFError |
+
+<details>
+
+[sample.txt]
+```txt
+hoge
+fuga
+piyo
+```
+
+<br>
+
+1行読み込み
+
+```ruby
+File.open('sample.txt', 'r') { |f| p f.gets }  # => "hoge\n"
+```
+
+<br>
+
+複数行読み込み
+
+```ruby
+File.open('sample.txt', 'r') do |f|
+  3.times { p f.gets }
+end
+
+# => "hoge\n"
+#    "fuga\n"
+#    "piyo\n"
+```
+
+<br>
+
+`gets` と `readline` の違い
+
+```ruby
+# gets
+File.open('sample.txt', 'r') do |f|
+  5.times { p f.gets }
+end
+
+# => "hoge\n"
+#    "fuga\n"
+#    "piyo\n"
+#    nil
+#    nil
+```
+
+```ruby
+# readline
+File.open('sample.txt', 'r') do |f|
+  5.times { p f.leadline }
+end
+
+# => "hoge\n"
+#    "fuga\n"
+#    "piyo\n"
+#    test.rb:4:in `readline': end of file reached (EOFError)
+```
+
+</details>
+
+[リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/method/IO/i/gets.html)
