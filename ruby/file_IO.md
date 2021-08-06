@@ -7,6 +7,7 @@
 - [新規作成【new】](#new)
 - [ファイル読み込み](#read)
     - [gets(readline) 《1行読み込み》](#gets)
+    - [readlines《複数行読み込み》](#readlines)
 
 <br>
 
@@ -569,3 +570,46 @@ end
 </details>
 
 [リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/method/IO/i/gets.html)
+
+<br>
+
+<span id='readlines'></span>
+### readlines
+
+全ての行を読み込み、配列で返す。
+
+```ruby
+File.open('ファイル名', 'r') { |f| f.readlines }
+```
+
+| オプション | 意味 | 記述 |
+|:----------:|:-----|:----:|
+| chomp | 改行を削除 | readlines(chomp: true) |
+
+<details>
+
+[sample.txt]
+
+```txt
+hoge
+fuga
+piyo
+```
+
+<br>
+
+```ruby
+File.open('sample.txt', 'r') { |f| p f.readlines }  # => ["hoge\n", "fuga\n", "piyo\n"]
+```
+
+<br>
+
+chomp: true
+
+```ruby
+File.open('sample.txt', 'r') { |f| p f.readlines(chomp: true) }  # => ["hoge", "fuga", "piyo"]
+```
+
+</details>
+
+[リファレンスマニュアル](https://docs.ruby-lang.org/ja/latest/method/IO/i/readlines.html)
