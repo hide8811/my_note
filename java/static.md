@@ -5,6 +5,18 @@
 - インスタンスを生成しなくても呼び出せる。
 - インスタンス化の影響を受けない。
 
+### staticを付ける
+
+- クラスで呼び出し(Class.method)
+- クラスで使用する変数を指定(インスタンス作成回数のカウントなど)
+
+### staticを付けない
+
+- インスタンスで呼び出し (instance.method)
+- 変数はインスタンス呼び出し時に初期化
+
+<br>
+
 ## メソッドで使用
 
 ```java
@@ -64,3 +76,40 @@ hi.hello(); // OK
 ```java
 public static <変数の型> <変数名> = <値>;
 ```
+
+<details>
+
+```java
+class Test {
+  public int count = 0;              // static なし
+  public static int countStatic = 0; // static あり
+
+  public Test() {
+    count++;       // インスタンス作成時に、初期化してから+1
+    countStatic++; // インスタンス作成時に、+1
+  }
+
+  public void printCount() {
+    System.out.println("count: " + count);
+    System.out.println("countStatic: " + countStatic);
+    System.out.println("---");
+  }
+}
+```
+
+```java
+class Main {
+  public static void main(String[] args) {
+    Test test1 = new Test();
+    test1.printCount();
+
+    Test test2 = new Test();
+    test2.printCount();
+
+    Test test3 = new Test();
+    test3.printCount();
+  }
+}
+```
+
+</details>
