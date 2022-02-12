@@ -52,3 +52,29 @@ puts(...ary3); // => 1, 2, 3
 ```
 
 </details>
+
+<br />
+
+### 配列の複製
+
+```javascript
+const newAry = [...ary];
+```
+
+複製元の配列は影響を受けない。
+
+<details>
+
+```javascript
+const ary = [1, 2, 3]
+const newAry = [...ary];
+
+console.log(newAry); // => [1, 2, 3]
+
+newAry.push(4);
+
+console.log(ary); // => [1, 2, 3]
+console.log(newAry); // => [1, 2, 3, 4]
+```
+
+</details>
