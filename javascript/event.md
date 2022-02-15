@@ -97,6 +97,27 @@ btn.addEventListener('click', putsHello);
 
 <br />
 
+複数のイベントハンドラが登録できる。
+
+<details>
+
+```javascript
+const btn = document.getElementById('btn');
+
+const putsHello = () => console.log('Hello');
+const putsWorld = () => console.log('World');
+
+btn.addEventListener('click', putsHello);
+btn.addEventListener('click', putsWorld);
+
+// Hello
+// World
+```
+
+</details>
+
+<br />
+
 #### 第一引数 【イベント】
 
 #### 第二引数 【関数 or `handleEvent()`をもつオブジェクト】
@@ -141,21 +162,49 @@ btn.addEventListener('click', changeColor);
 
 <br />
 
-複数のイベントハンドラが登録できる。
+##### 関数の重複
+
+同じ関数やオブジェクトがすでに登録されていた場合、二つ目以降は追加されない。<br />
+ただし、無名関数だった場合は別物と見做されるため、二つ目以降も追加される。
 
 <details>
 
 ```javascript
+// 関数の場合
 const btn = document.getElementById('btn');
-
-const putsHello = () => console.log('Hello');
-const putsWorld = () => console.log('World');
+const putsHello = () => { console.log('Hello'); };
 
 btn.addEventListener('click', putsHello);
-btn.addEventListener('click', putsWorld);
-
+btn.addEventListener('click', putsHello);
+// 出力は一回
+//
 // Hello
-// World
+```
+
+```javascript
+// オブジェクトの場合
+const btn = document.getElementById('btn');
+const putsHello = {
+  handleEvent() { console.log('Hello'); },
+};
+
+btn.addEventListener('click', putsHello);
+btn.addEventListener('click', putsHello);
+// 出力は一回
+//
+// Hello
+```
+
+```javascript
+// 無名関数の場合
+const btn = document.getElementById('btn');
+
+btn.addEventListener('click', () => { console.log('Hello'); });
+btn.addEventListener('click', () => { console.log('Hello'); });
+// 出力は二回
+//
+// Hello
+// Hello
 ```
 
 </details>
