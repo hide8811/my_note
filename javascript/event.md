@@ -6,7 +6,6 @@
 [イベントリファレンス](https://developer.mozilla.org/ja/docs/Web/Events)<br />
 [イベントへの入門](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Building_blocks/Events)
 
-
 ## イベントハンドラとイベントリスナ
 
 イベントハンドラ`Event Handler`: イベント発火時に実行される処理<br />
@@ -92,6 +91,50 @@ const putsHello = () => console.log('Hello');
 btn.addEventListener('click', putsHello);
 
 // Hello
+```
+
+</details>
+
+<br />
+
+#### 第一引数 【イベント】
+
+#### 第二引数 【関数 or `handleEvent()`をもつオブジェクト】
+
+<details>
+
+```javascript
+// 関数を渡す
+const btn = document.getElementById('btn');
+const changeColor = (e) => { e.currentTarget.style.color = 'red'; };
+
+btn.addEventListener('click', changeColor);
+```
+
+```javascript
+// 無名関数を渡す
+const btn = document.getElementById('btn');
+
+btn.addEventListener('click', function () {
+  this.style.color = 'red';
+});
+
+// アロー関数
+btn.addEventListener('click', (e) => {
+  e.currentTarget.style.color = 'red';
+});
+```
+
+```javascript
+// オブジェクト(handleEvent)を渡す
+const btn = document.getElementById('btn');
+const changeColor = {
+  handleEvent() {
+    e.currentTarget.style.color = 'red';
+  },
+};
+
+btn.addEventListener('click', changeColor);
 ```
 
 </details>
