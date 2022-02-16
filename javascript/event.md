@@ -211,4 +211,21 @@ btn.addEventListener('click', () => { console.log('Hello'); });
 
 <br />
 
+#### イベントリスナの関数に引数を渡す
+
+イベントリスナに渡す関数の引数は、イベントオブジェクトのみ。
+
+<details>
+
+```javascript
+const btn = document.getElementById('btn');
+const putsArg = (event) => { console.log(event) };
+
+btn.addEventListener('click', putsArg); // => PointerEvent {isTrusted: true, pointerId: 1, width: 1, height: 1, pressure: 0, …}
+```
+
+</details>
+
+<br />
+
 [EventTarget.addEventListener()](https://developer.mozilla.org/ja/docs/Web/API/EventTarget/addEventListener)
