@@ -8,6 +8,7 @@
     - [関数宣言(function f())](#関数宣言-function-f-)
     - [関数式(= function()](#関数式--function-)
     - [アロー関数(() =>)](#アロー関数---)
+- [巻き上げ(Hoisting)](#巻き上げhoisting)
 - [式展開(\`${}\`)](#式展開-)
 
 ## 変数
@@ -19,7 +20,7 @@
 | [const](#const) |  <span style="color: crimson;">×</span> | <span style="color: crimson;">×</span> | <span style="color: crimson;">×</span> |
 
 ### var
-変数を定義。<br />
+変数を宣言。<br />
 スコープ外でも使用できてしまうため、意図せぬ挙動になることがある。<br />
 `let`の使用を推奨。
 
@@ -95,7 +96,7 @@ console.log(num); // => 1
 <br />
 
 ### let
-変数を定義。
+変数を宣言。
 
 ```javascript
 let <変数名> = <値>
@@ -199,7 +200,7 @@ console.log(num); // => 1
 <br />
 
 ### const
-変数・定数を定義。
+変数・定数を宣言。
 
 ```javascript
 const <変数名> = <値>
@@ -326,7 +327,7 @@ console.log(ary) // => ['d', 'b', 'c'];
 #### 関数宣言と関数式の違い
 
 **関数宣言** => 巻き上げが起こり、宣言前でも使用可。<br />
-**関数式** => 巻き上げは起こらず、定義前に使用することはできない。
+**関数式** => 巻き上げは起こらず、宣言前に使用することはできない。
 
 ```javascript
 // 関数宣言
@@ -380,7 +381,7 @@ btn.addEventListener('click', () => {
 
 ### 関数宣言 `function f() {}`
 
-関数に名前をつけて定義。
+関数に名前をつけて宣言。
 
 ```javascript
 function <関数名>(<引数>) {
@@ -428,6 +429,79 @@ const <変数・定数名> = () => {
 // 処理が1行
 const <変数・定数名> = () => <処理>;
 ```
+
+<br />
+
+## 巻き上げ(Hoisting)
+
+変数(`var`)や関数(関数宣言)がコード上の宣言前でも使うことができる。<br />
+宣言がスコープの先頭に巻き上げられる。
+
+<details>
+
+### 関数の巻き上げ
+
+**関数宣言**は、宣言前でも実行できる。<br />
+(関数式やアロー関数は不可)
+
+```javascript
+output() // => Hello
+
+function output() {
+  console.log('Hello');
+}
+```
+
+<br />
+
+関数名が重複した場合、関数は上書きされる。
+
+```javascript
+output() // => World
+
+function output() {
+  console.log('Hello');
+}
+
+output() // => World
+
+function output() {
+  console.log('World');
+}
+```
+
+<br />
+
+### 変数の巻き上げ
+
+`var`は、**宣言のみ**が巻き上げられる。<br />
+(`let`・`const`は不可)<br />
+代入(初期化)は、コード位置のまま。
+
+```javascript
+console.log(word); // => undefined
+
+var word = 'Hello';
+
+console.log(word); // => Hello
+```
+
+<br />
+
+```javascript
+// 宣言されていない場合
+console.log(word) // => ReferenceError: word is not defined
+```
+```javascript
+// letの場合
+console.log(word) // => ReferenceError: Cannot access 'word' before initialization
+
+let word = 'Hello';
+```
+
+</details>
+
+<br />
 
 ## 式展開 `` `${}` ``
 文字列内で変数を展開する。
