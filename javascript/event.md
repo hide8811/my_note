@@ -228,4 +228,29 @@ btn.addEventListener('click', putsArg); // => PointerEvent {isTrusted: true, poi
 
 <br />
 
+##### 無名関数を使用
+
+イベントハンドラに無名関数を使用し、その中で関数を呼び出す。
+
+```javascript
+target.addEventListener('event', function() {
+  myFunc(arg);
+});
+```
+
+<details>
+
+```javascript
+const btn = document.getElementById('btn');
+const putsWord = (word) => { console.log(word); };
+
+btn.addEventListener('click', function() {
+  putsWord('Hello');
+});
+```
+
+</details>
+
+<br />
+
 [EventTarget.addEventListener()](https://developer.mozilla.org/ja/docs/Web/API/EventTarget/addEventListener)
