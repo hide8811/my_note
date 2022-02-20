@@ -228,6 +228,40 @@ btn.addEventListener('click', putsArg); // => PointerEvent {isTrusted: true, poi
 
 <br />
 
+##### `bind()`を使用
+
+イベントハンドラに`bind()`で引数を渡す。
+
+```javascript
+target.addEventListener('event', myFunc.bind(null, arg));
+```
+
+<details>
+
+```javascript
+const btn = document.getElementById('btn');
+const putsWord = (word) => { console.log(word); };
+
+btn.addEventListener('click', putsWord.bind(null, 'Hello'));
+// => Hello
+```
+
+<br />
+
+`event`オブジェクトを使用する際は、`bind`で渡した引数の次に指定する。
+
+```javascript
+const btn = document.getElementById('btn');
+const putsWord = (hoge, fuga, event) => { console.log(hoge, fuga, event.type); };
+
+btn.addEventListener('click', putsWord.bind(null, 'Hello', 'World'));
+// => Hello World click
+```
+
+</details>
+
+<br />
+
 ##### 無名関数を使用
 
 イベントハンドラに無名関数を使用し、その中で関数を呼び出す。
