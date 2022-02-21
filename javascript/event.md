@@ -228,6 +228,36 @@ btn.addEventListener('click', putsArg); // => PointerEvent {isTrusted: true, poi
 
 <br />
 
+##### オブジェクト(`hendleEvent`)を使用
+
+オブジェクトのプロパティで渡す。
+
+```javascript
+target.addEventListener('event', {
+  key: 'value',
+  handleEvent: myFunc,
+});
+```
+
+<details>
+
+```javascript
+const btn = document.getElementById('btn');
+const putsWord = function () {
+  console.log(this.word);
+};
+
+btn.addEventListener('click', {
+  word: 'Hello',
+  handleEvent: putsWord,
+});
+// => Hello
+```
+
+</details>
+
+<br />
+
 ##### `bind()`を使用
 
 イベントハンドラに`bind()`で引数を渡す。
