@@ -1,6 +1,6 @@
 # bind()
 
-関数に`this`と引数を指定した、新しい関数を生成する。
+関数に`this`と引数を指定した、**新しい関数を生成**する。
 
 ```javascript
 func.bind(thisArg, agr);
@@ -42,6 +42,42 @@ const myFunc = (agr, agr2, agr3, agr4) => {
 const bindFunc = myFunc.bind(null, 'bindAgr', 'bindAgr2');
 
 bindFunc('Agr', 'Agr2'); // => bindAgr bindAgr2 Agr Agr2
+```
+
+</details>
+
+<br />
+
+# call()
+
+関数に`this`と新しい引数を渡し、**関数を実行**する。
+
+```javascript
+func.call(thisArg, agr);
+```
+
+`func`: 対象となる関数。<br />
+`thisArg`: 第一引数。関数に渡される`this`の値。<br />
+`arg`: 関数に渡される引数。複数可。本来の関数が持つ引数の前に追加される。
+
+<details>
+
+### `this`を渡す
+
+```javascript
+
+this.text = 'this text';
+
+const obj = {
+  text: 'obj text',
+  getText() {
+    return this.text;
+  },
+};
+
+console.log(obj.getText()); // => obj text
+
+console.log(obj.getText.call(this)); // => this text
 ```
 
 </details>
